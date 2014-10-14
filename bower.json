@@ -1,0 +1,38 @@
+{
+    "name": "Microsoft.jQuery.Unobtrusive.Validation",
+    "version": "3.2.2",
+    "homepage": "https://github.com/aspnet/jquery-validation-unobtrusive",
+    "description": "jQuery plugin that unobtrusively sets up jQuery.Validation",
+    "main": [
+        "jquery.validate.unobtrusive.js",
+        "jquery.validate.unobtrusive.min.js"
+    ],
+    "moduleType": [
+        "es6"
+    ],
+    "keywords": [
+        "jQuery",
+        "ASP.NET",
+        "MVC",
+        "Validation",
+        "Unobtrusive"
+    ],
+    "authors": [
+        "Microsoft"
+    ],
+    "license": "Apache Version 2.0",
+    "ignore": [
+        "**/.*",
+        "node_modules",
+        "bower_components",
+        "test",
+        "tests",
+        "CONTRIBUTING.md",
+        "LICENSE.txt",
+        "README.md"
+    ],
+    "dependencies": {
+        "jquery.validation": ">=1.8",
+        "jQuery": ">=1.8"
+    }
+}
