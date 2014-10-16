@@ -2,7 +2,7 @@
     "name": "jquery-validation-unobtrusive",
     "version": "3.2.2",
     "homepage": "http://www.asp.net",
-    "description": "jQuery plugin that unobtrusively sets up jQuery.Validation",
+    "description": "jQuery plugin that unobtrusively sets up jquery-validation",
     "main": [
         "jquery.validate.unobtrusive.js",
         "jquery.validate.unobtrusive.min.js"
