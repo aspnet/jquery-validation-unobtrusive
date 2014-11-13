@@ -6,8 +6,14 @@
 /*jslint white: true, browser: true, onevar: true, undef: true, nomen: true, eqeqeq: true, plusplus: true, bitwise: true, regexp: true, newcap: true, immed: true, strict: false */
 /*global document: false, jQuery: false */
 
-(function ($) {
-    var $jQval = $.validator,
+(function (factory) {
+    if (typeof define === 'function' && define.amd) {
+        define(["jquery", "jquery.validate"], factory);
+    } else {
+        factory(jQuery, jQuery.validator);
+    }
+})(function ($, validator) {
+    var $jQval = validator,
         adapters,
         data_validation = "unobtrusiveValidation";
 
@@ -393,4 +399,4 @@
     $(function () {
         $jQval.unobtrusive.parse(document);
     });
-}(jQuery));
+});
