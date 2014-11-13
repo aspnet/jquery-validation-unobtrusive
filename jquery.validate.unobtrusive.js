@@ -13,7 +13,7 @@
         factory(jQuery, jQuery.validator);
     }
 })(function ($, validator) {
-    var $jQval = validator,
+    var $jQval = validator || $.validator,
         adapters,
         data_validation = "unobtrusiveValidation";
 
