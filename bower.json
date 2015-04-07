@@ -1,8 +1,8 @@
 {
     "name": "jquery-validation-unobtrusive",
     "version": "3.2.2",
-    "homepage": "http://www.asp.net",
-    "description": "jQuery plugin that unobtrusively sets up jquery-validation",
+    "homepage": "https://github.com/aspnet/jquery-validation-unobtrusive",
+    "description": "Add-on to jQuery Validation to enable unobtrusive validation options in data-* attributes.",
     "main": [
         "jquery.validate.unobtrusive.js",
         "jquery.validate.unobtrusive.min.js"
@@ -21,7 +21,7 @@
     "license": "http://www.microsoft.com/web/webpi/eula/net_library_eula_enu.htm",
     "repository": {
         "type": "git",
-        "url": "git://github.com/aspnet/Mvc.git"
+        "url": "git://github.com/aspnet/jquery-validation-unobtrusive.git"
     },
     "dependencies": {
         "jquery-validation": ">=1.8",
