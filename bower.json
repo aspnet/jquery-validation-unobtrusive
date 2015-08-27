@@ -6,7 +6,11 @@
     "main": [
         "jquery.validate.unobtrusive.js"
     ],
-    "ignore": "",
+    "ignore": [
+        "*.json",
+        "*.md",
+        "*.txt"
+    ],
     "keywords": [
         "jquery",
         "asp.net",
