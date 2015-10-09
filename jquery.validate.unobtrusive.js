@@ -6,7 +6,13 @@
 /*jslint white: true, browser: true, onevar: true, undef: true, nomen: true, eqeqeq: true, plusplus: true, bitwise: true, regexp: true, newcap: true, immed: true, strict: false */
 /*global document: false, jQuery: false */
 
-(function ($) {
+(function( factory ) {
+	if ( typeof define === "function" && define.amd ) {
+	    define( ["jquery", "jquery.validate"], factory );
+	} else {
+		factory( jQuery );
+	}
+}(function ($) {
     var $jQval = $.validator,
         adapters,
         data_validation = "unobtrusiveValidation";
@@ -408,8 +414,6 @@
             setValidationValues(options, "regex", options.params.regex);
         }
     });
-
-    $(function () {
-        $jQval.unobtrusive.parse(document);
-    });
-}(jQuery));
+    
+    return $jQval.unobtrusive;
+}));
