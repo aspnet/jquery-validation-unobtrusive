@@ -6,12 +6,20 @@
 /*jslint white: true, browser: true, onevar: true, undef: true, nomen: true, eqeqeq: true, plusplus: true, bitwise: true, regexp: true, newcap: true, immed: true, strict: false */
 /*global document: false, jQuery: false */
 
-(function( factory ) {
-	if ( typeof define === "function" && define.amd ) {
-	    define( ["jquery", "jquery.validate"], factory );
-	} else {
-		factory( jQuery );
-	}
+(function (factory) {
+    if (typeof define === 'function' && define.amd) {
+        // AMD. Register as an anonymous module.
+        define(['jquery', 'jquery.validate'], factory);
+    } else if (typeof module === 'object' && module.exports) {
+        // CommonJS-like environments that support module.exports
+        module.exports = factory(require('jquery'), require('jquery.validate'));
+    } else {
+        // Browser global
+        var unobtrusive = factory(jQuery);
+        jQuery(function(){
+           unobtrusive.parse(document); 
+        });
+    }
 }(function ($) {
     var $jQval = $.validator,
         adapters,
