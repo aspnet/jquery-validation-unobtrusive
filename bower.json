@@ -10,7 +10,8 @@
         "**/.*",
         "*.json",
         "*.md",
-        "*.txt"
+        "*.txt",
+	"gulpfile.js"
     ],
     "keywords": [
         "jquery",
