@@ -11,6 +11,7 @@
         "*.json",
         "*.md",
         "*.txt",
+        "!LICENSE.txt",
         "gulpfile.js"
     ],
     "keywords": [
