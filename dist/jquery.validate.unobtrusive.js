@@ -8,16 +8,13 @@
 (function (factory) {
     if (typeof define === 'function' && define.amd) {
         // AMD. Register as an anonymous module.
-        define(['jquery', 'jquery.validate'], factory);
+        define("jquery.validate.unobtrusive", ['jquery.validate'], factory);
     } else if (typeof module === 'object' && module.exports) {
-        // CommonJS-like environments that support module.exports
-        module.exports = factory(require('jquery'), require('jquery.validate'));
+        // CommonJS-like environments that support module.exports     
+        module.exports = factory(require('jquery-validation'));
     } else {
         // Browser global
-        var unobtrusive = factory(jQuery);
-        jQuery(function(){
-           unobtrusive.parse(document); 
-        });
+        jQuery.validator.unobtrusive = factory(jQuery);
     }
 }(function ($) {
     var $jQval = $.validator,
@@ -422,6 +419,10 @@
             setValidationValues(options, "regex", options.params.regex);
         }
     });
-    
+
+    $(function () {
+        $jQval.unobtrusive.parse(document);
+    });
+
     return $jQval.unobtrusive;
 }));
