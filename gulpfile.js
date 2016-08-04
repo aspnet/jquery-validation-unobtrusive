@@ -4,7 +4,9 @@ var gulp = require("gulp"),
 
 gulp.task("minifyJS", function () {
     gulp.src(["jquery.validate.unobtrusive.js"], { base: "." })
-        .pipe(uglify())
+        .pipe(uglify({
+            preserveComments: 'license'
+        }))
         .pipe(rename({suffix: '.min'}))
         .pipe(gulp.dest("."));
 });
