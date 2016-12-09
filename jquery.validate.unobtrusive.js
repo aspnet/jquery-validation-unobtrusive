@@ -108,6 +108,7 @@
             .removeData("unobtrusiveContainer")
             .find(">*")  // If we were using valmsg-replace, get the underlying error
                 .removeData("unobtrusiveContainer");
+        $form.find("span").empty();
     }
 
     function validationInfo(form) {
