@@ -16,9 +16,13 @@
 */
     $.extend($.fn, {
         resetForm: function () {
-            var container = $(this).find(".field-validation-error");
-            if(container){
-                container.removeClass("field-validation-error").addClass("field-validation-valid").empty();
+            var errorElement = $(this).find(".field-validation-error");
+            if(errorElement){
+                errorElement.removeClass("field-validation-error").addClass("field-validation-valid").empty();
+            }
+            errorElement = $(this).find(".has-error");
+            if(errorElement){
+                errorElement.removeClass("has-error");
             }
         }
     })
