@@ -7,6 +7,37 @@
 /*global document: false, jQuery: false */
 
 (function ($) {
+
+/*
+    onReset not be call
+    we can't use $("form").validate().resetForm() to clear the error message (span error elements)
+    https://github.com/jzaefferer/jquery-validation/blob/5dee52b9325c59de2792336d3336ff0178c85eab/src/core.js#L517
+    extend resetForm to fix it;
+*/
+    $.extend($.fn, {
+        resetForm: function () {
+            var $form = $(this);
+            var errorElement = $form.find(".field-validation-error");
+            if(errorElement){
+                errorElement.removeClass("field-validation-error").addClass("field-validation-valid").empty();
+            }
+            errorElement = $form.find(".has-error");
+            if(errorElement){
+                errorElement.removeClass("has-error");
+            }
+
+            $form.find(".validation-summary-errors")
+                .addClass("validation-summary-valid")
+                .removeClass("validation-summary-errors");
+            $form.find(".field-validation-error")
+                .addClass("field-validation-valid")
+                .removeClass("field-validation-error")
+                .removeData("unobtrusiveContainer")
+                .find(">*")  // If we were using valmsg-replace, get the underlying error
+                    .removeData("unobtrusiveContainer");
+            }
+    })
+
     var $jQval = $.validator,
         adapters,
         data_validation = "unobtrusiveValidation";
