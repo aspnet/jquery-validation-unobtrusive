@@ -16,15 +16,26 @@
 */
     $.extend($.fn, {
         resetForm: function () {
-            var errorElement = $(this).find(".field-validation-error");
+            var $form = $(this);
+            var errorElement = $form.find(".field-validation-error");
             if(errorElement){
                 errorElement.removeClass("field-validation-error").addClass("field-validation-valid").empty();
             }
-            errorElement = $(this).find(".has-error");
+            errorElement = $form.find(".has-error");
             if(errorElement){
                 errorElement.removeClass("has-error");
             }
-        }
+
+            $form.find(".validation-summary-errors")
+                .addClass("validation-summary-valid")
+                .removeClass("validation-summary-errors");
+            $form.find(".field-validation-error")
+                .addClass("field-validation-valid")
+                .removeClass("field-validation-error")
+                .removeData("unobtrusiveContainer")
+                .find(">*")  // If we were using valmsg-replace, get the underlying error
+                    .removeData("unobtrusiveContainer");
+            }
     })
 
     var $jQval = $.validator,
