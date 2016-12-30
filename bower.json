@@ -4,7 +4,7 @@
     "homepage": "https://github.com/aspnet/jquery-validation-unobtrusive",
     "description": "Add-on to jQuery Validation to enable unobtrusive validation options in data-* attributes.",
     "main": [
-        "jquery.validate.unobtrusive.js"
+        "dist/jquery.validate.unobtrusive.js"
     ],
     "ignore": [
         "**/.*",

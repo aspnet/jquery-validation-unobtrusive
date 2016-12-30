@@ -1,7 +1,6 @@
-/*!
-** Unobtrusive validation support library for jQuery and jQuery Validate
-** Copyright (C) Microsoft Corporation. All rights reserved.
-*/
+// Unobtrusive validation support library for jQuery and jQuery Validate
+// Copyright (C) Microsoft Corporation. All rights reserved.
+// @version <placeholder>
 
 /*jslint white: true, browser: true, onevar: true, undef: true, nomen: true, eqeqeq: true, plusplus: true, bitwise: true, regexp: true, newcap: true, immed: true, strict: false */
 /*global document: false, jQuery: false */
