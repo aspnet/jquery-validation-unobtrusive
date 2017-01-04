@@ -6,3 +6,9 @@ The jQuery Unobtrusive Validation library complements jQuery Validation by addin
 This project is part of ASP.NET Core. You can find samples, documentation and getting started instructions for ASP.NET Core at the [Home](https://github.com/aspnet/home) repo.
 
 `jquery.validate.unobtrusive.min.js` must be kept up to date with `jquery.validate.unobtrusive.js`, this can easily be done by running `gulp` before committing.
+
+###Bower
+Install with [Bower] (http://www.bower.io).
+```
+bower install jquery-validation-unobtrusive —save
+```
