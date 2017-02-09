@@ -1,4 +1,3 @@
-/// <reference path="require.js" />
 // Unobtrusive validation support library for jQuery and jQuery Validate
 // Copyright (C) Microsoft Corporation. All rights reserved.
 // @version v3.2.6
@@ -9,18 +8,13 @@
 (function (factory) {
     if (typeof define === 'function' && define.amd) {
         // AMD. Register as an anonymous module.
-        define("jquery.validate.unobtrusive", ['jquery', 'jquery.validate'], factory);
+        define("jquery.validate.unobtrusive", ['jquery.validate'], factory);
     } else if (typeof module === 'object' && module.exports) {
         // CommonJS-like environments that support module.exports     
-        global.jQuery = require("jquery")
-
         module.exports = factory(require('jquery-validation'));
     } else {
         // Browser global
-        var unobtrusive = factory(jQuery);
-        jQuery(function (jotaQuery) {
-            jotaQuery.validator.unobtrusive.parse(document);
-        });
+        jQuery.validator.unobtrusive = factory(jQuery);
     }
 }(function ($) {
     var $jQval = $.validator,
@@ -429,4 +423,6 @@
     $(function () {
         $jQval.unobtrusive.parse(document);
     });
+
+    return $jQval.unobtrusive;
 }));
