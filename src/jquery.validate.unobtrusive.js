@@ -342,7 +342,7 @@
             return true;
         }
 
-        match = new RegExp(params).exec(value);
+        match = new RegExp(params.pattern, params.flags).exec(value);
         return (match && (match.index === 0) && (match[0].length === value.length));
     });
 
@@ -365,7 +365,17 @@
         adapters.addSingleVal("extension", "extension", "accept");
     }
 
-    adapters.addSingleVal("regex", "pattern");
+    adapters.add("regex", ["pattern", "flags"], function (options) {
+        if (options.params.pattern) {
+            var params = {
+                pattern: options.params.pattern
+            };
+            if (options.params.flags) {
+                params["flags"] = options.params.flags;
+            }
+            setValidationValues(options, "regex", params);
+        }
+    });
     adapters.addBool("creditcard").addBool("date").addBool("digits").addBool("email").addBool("number").addBool("url");
     adapters.addMinMax("length", "minlength", "maxlength", "rangelength").addMinMax("range", "min", "max", "range");
     adapters.addMinMax("minlength", "minlength").addMinMax("maxlength", "minlength", "maxlength");
