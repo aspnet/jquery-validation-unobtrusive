@@ -7,12 +7,12 @@
     <authors>Microsoft</authors>
     <owners>Microsoft,aspnet</owners>
     <requireLicenseAcceptance>true</requireLicenseAcceptance>
-    <licenseUrl>http://www.microsoft.com/web/webpi/eula/net_library_eula_ENU.htm</licenseUrl>
+    <licenseUrl>https://www.microsoft.com/web/webpi/eula/net_library_eula_ENU.htm</licenseUrl>
     <projectUrl>https://www.asp.net/</projectUrl>
-    <iconUrl>http://go.microsoft.com/fwlink/?LinkID=288859</iconUrl>
+    <iconUrl>https://go.microsoft.com/fwlink/?LinkID=288859</iconUrl>
     <description>jQuery plugin that unobtrusively sets up jQuery.Validation.</description>
     <summary>The jQuery Unobtrusive Validation library complements jQuery Validation by adding support for specifying validation options as HTML5 data-* elements</summary>
-    <releaseNotes>Please visit http://go.microsoft.com/fwlink/?LinkId=389866 to view the release notes.</releaseNotes>
+    <releaseNotes>Please visit https://go.microsoft.com/fwlink/?LinkId=389866 to view the release notes.</releaseNotes>
     <copyright>© Microsoft Corporation. All rights reserved.</copyright>
     <tags>jQuery Unobtrusive</tags>
     <dependencies>
@@ -23,7 +23,5 @@
   <files>
     <file src="dist\jquery.validate.unobtrusive.js" target="Content"/>
     <file src="dist\jquery.validate.unobtrusive.min.js" target="Content"/>
-    <file src="LICENSE.txt" target=""/>
-    <file src="README.md" target=""/>
   </files>
 </package>
