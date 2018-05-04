@@ -1,0 +1,11 @@
+init:
+- git config --global core.autocrlf true
+branches:
+  only:
+  - dev
+  - /^release\/.*$/
+  - /^(.*\/)?ci-.*$/
+build_script:
+- ps: .\run.ps1
+clone_depth: 1
+os: Visual Studio 2017
