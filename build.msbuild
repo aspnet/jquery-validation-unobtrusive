@@ -5,8 +5,14 @@
     <PropertyGroup>
         <NuspecPath>Microsoft.jQuery.Unobtrusive.Validation.nuspec</NuspecPath>
         <NpmPackOutputDir>$(MSBuildThisFileDirectory)npmpackoutput\</NpmPackOutputDir>
+        <DistDir>$(MSBuildThisFileDirectory)dist\</DistDir>
+        <ArtifactsDir>$(MSBuildThisFileDirectory)artifacts\build\</ArtifactsDir>
         <WebPackTestDir>$(MSBuildThisFileDirectory)test\webpacktest\</WebPackTestDir>
     </PropertyGroup>
+
+    <ItemGroup>
+        <DistDirFiles Include="$(DistDir)*.*"/>
+    </ItemGroup>
 
     <Target Name="Build">
         <ReadLinesFromFile File="@(VersionFile)">
@@ -15,7 +21,10 @@
         <Exec Command="npm install" />
         <Exec Command="npm version --no-git-tag-version --allow-same-version $(PackageVersion)" />
         <Exec Command="$(MSBuildThisFileDirectory)node_modules\.bin\gulp" />
-        <Exec Command="nuget pack $(NuspecPath) -Version $(PackageVersion)" />
+        <Copy
+            SourceFiles="@(DistDirFiles)"
+            DestinationFolder="$(ArtifactsDir)" OverwriteReadOnlyFiles="true"/>
+        <Exec Command="nuget pack $(NuspecPath) -Version $(PackageVersion) -OutputDirectory $(ArtifactsDir)" />
 
         <MSBuild Projects ="$(MSBuildProjectFullPath)"
             Properties="PackageVersion=$(PackageVersion)"

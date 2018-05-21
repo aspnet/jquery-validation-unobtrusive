@@ -4,3 +4,4 @@ node_modules/
 npmpackoutput/
 test/webpacktest/package*.json
 test/webpacktest/dist/
+artifacts/
