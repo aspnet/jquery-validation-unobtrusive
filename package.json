@@ -1,6 +1,6 @@
 {
   "name": "jquery-validation-unobtrusive",
-  "version": "3.2.9",
+  "version": "3.2.10",
   "homepage": "https://github.com/aspnet/jquery-validation-unobtrusive",
   "description": "Add-on to jQuery Validation to enable unobtrusive validation options in data-* attributes.",
   "main": "dist/jquery.validate.unobtrusive.js",
