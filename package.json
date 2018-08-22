@@ -18,7 +18,7 @@
   "author": {
     "name": "Microsoft"
   },
-  "license": "https://www.microsoft.com/web/webpi/eula/net_library_eula_enu.htm",
+  "license": "https://aka.ms/jqueryunobtrusivelicense",
   "readme": "The jQuery Unobtrusive Validation library complements jQuery Validation by adding support for specifying validation options as HTML5 data-* elements",
   "files": [
     "dist/jquery.validate.unobtrusive.js",
