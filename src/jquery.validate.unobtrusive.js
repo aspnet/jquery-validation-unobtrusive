@@ -117,8 +117,7 @@
             .addClass("field-validation-valid")
             .removeClass("field-validation-error")
             .removeData("unobtrusiveContainer")
-            .find(">*")  // If we were using valmsg-replace, get the underlying error
-            .removeData("unobtrusiveContainer");
+            .empty();
     }
 
     function validationInfo(form) {
