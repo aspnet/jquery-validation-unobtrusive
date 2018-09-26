@@ -112,7 +112,8 @@
 
         $form.find(".validation-summary-errors")
             .addClass("validation-summary-valid")
-            .removeClass("validation-summary-errors");
+            .removeClass("validation-summary-errors")
+            .find("ul").empty();
         $form.find(".field-validation-error")
             .addClass("field-validation-valid")
             .removeClass("field-validation-error")
