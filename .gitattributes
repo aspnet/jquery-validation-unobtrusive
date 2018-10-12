@@ -50,4 +50,3 @@
 *.sln text=auto eol=crlf
 
 *.sh eol=lf
-package-lock.json binary
