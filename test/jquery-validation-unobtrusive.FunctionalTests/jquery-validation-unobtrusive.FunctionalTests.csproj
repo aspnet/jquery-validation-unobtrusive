@@ -1,0 +1,8 @@
+﻿<Project Sdk="Internal.AspNetCore.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>$(StandardTestTfms)</TargetFrameworks>
+    <RootNamespace>jquery.validation.unobtrusive.FunctionalTests</RootNamespace>
+  </PropertyGroup>
+
+</Project>
