@@ -1,36 +1,39 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-    <PropertyGroup>
-        <NuspecPath>$(MSBuildThisFileDirectory)Microsoft.jQuery.Unobtrusive.Validation.nuspec</NuspecPath>
-        <DistDir>$(MSBuildThisFileDirectory)dist\</DistDir>
-        <ArtifactsDir>$(MSBuildThisFileDirectory)artifacts\build\</ArtifactsDir>
-        <WebPackTestDir>$(MSBuildThisFileDirectory)test\webpacktest\</WebPackTestDir>
-    </PropertyGroup>
+  <PropertyGroup>
+    <NuspecPath>$(MSBuildThisFileDirectory)Microsoft.jQuery.Unobtrusive.Validation.nuspec</NuspecPath>
+    <DistDir>$(MSBuildThisFileDirectory)dist\</DistDir>
+    <ArtifactsDir>$(MSBuildThisFileDirectory)artifacts\build\</ArtifactsDir>
+    <WebPackTestDir>$(MSBuildThisFileDirectory)test\webpacktest\</WebPackTestDir>
+    <PackageVersion>3.2.11</PackageVersion>
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
 
-    <ItemGroup>
-        <DistDirFiles Include="$(DistDir)*.*;"/>
-    </ItemGroup>
+  <ItemGroup>
+    <DistDirFiles Include="$(DistDir)*.*;"/>
+  </ItemGroup>
 
-    <Target Name="Build">
-        <Exec Command="npm install" WorkingDirectory="$(MSBuildThisFileDirectory)" />
-        <Exec Command="npm version --no-git-tag-version --allow-same-version $(PackageVersion)" WorkingDirectory="$(MSBuildThisFileDirectory)" />
-        <Exec Command="$(MSBuildThisFileDirectory)node_modules\.bin\gulp" WorkingDirectory="$(MSBuildThisFileDirectory)" />
-        <MakeDir Directories="$(ArtifactsDir)" />
-        <Copy
-            SourceFiles="@(DistDirFiles)"
-            DestinationFolder="$(ArtifactsDir)" OverwriteReadOnlyFiles="true"/>
-        <Exec Command="npm pack $(MSBuildThisFileDirectory)" WorkingDirectory="$(ArtifactsDir)" />
-        <Exec Command="nuget pack $(NuspecPath) -Version $(PackageVersion) -OutputDirectory $(ArtifactsDir)" />
+  <Target Name="Build">
+    <Message Importance="high" Text="Running unobtrusive build" />
+    <Exec Command="npm install" WorkingDirectory="$(MSBuildThisFileDirectory)" />
+    <Exec Command="npm version --no-git-tag-version --allow-same-version $(PackageVersion)" WorkingDirectory="$(MSBuildThisFileDirectory)" />
+    <Exec Command="$(MSBuildThisFileDirectory)node_modules\.bin\gulp" WorkingDirectory="$(MSBuildThisFileDirectory)" />
+    <MakeDir Directories="$(ArtifactsDir)" />
+    <Copy
+        SourceFiles="@(DistDirFiles)"
+        DestinationFolder="$(ArtifactsDir)" OverwriteReadOnlyFiles="true"/>
+    <Exec Command="npm pack $(MSBuildThisFileDirectory)" WorkingDirectory="$(ArtifactsDir)" />
+    <Exec Command="$(MSBuildThisFileDirectory)nuget.exe pack $(NuspecPath) -Version $(PackageVersion) -OutputDirectory $(ArtifactsDir)" />
 
-        <MSBuild Projects ="$(MSBuildProjectFullPath)"
-            Properties="PackageVersion=$(PackageVersion)"
-            Targets="Test" />
-    </Target>
+    <MSBuild Projects ="$(MSBuildProjectFullPath)"
+        Properties="PackageVersion=$(PackageVersion)"
+        Targets="Test" />
+  </Target>
 
-    <Target Name="Test">
-        <Message Text="Testing Webpack build..." />
-        <Exec Command="npm init -y" WorkingDirectory="$(WebPackTestDir)" />
-        <Exec Command="npm install $(ArtifactsDir)jquery-validation-unobtrusive-$(PackageVersion).tgz --save-dev --force" WorkingDirectory="$(WebPackTestDir)" />
-        <Exec Command="npm install webpack webpack-cli --save-dev" WorkingDirectory="$(WebPackTestDir)" />
-        <Exec Command="npx webpack" WorkingDirectory="$(WebPackTestDir)" />
-    </Target>
+  <Target Name="Test">
+    <Message Text="Testing Webpack build..." />
+    <Exec Command="npm init -y" WorkingDirectory="$(WebPackTestDir)" />
+    <Exec Command="npm install $(ArtifactsDir)jquery-validation-unobtrusive-$(PackageVersion).tgz --save-dev --force" WorkingDirectory="$(WebPackTestDir)" />
+    <Exec Command="npm install webpack webpack-cli --save-dev" WorkingDirectory="$(WebPackTestDir)" />
+    <Exec Command="npx webpack" WorkingDirectory="$(WebPackTestDir)" />
+  </Target>
 </Project>

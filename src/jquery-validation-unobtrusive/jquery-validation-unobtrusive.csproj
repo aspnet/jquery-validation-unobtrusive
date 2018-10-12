@@ -1,13 +1,18 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.Build.NoTargets">
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <IsPackable>false</IsPackable>
   </PropertyGroup>
-  <ItemGroup>
-    <Content Include="..\**\*.js" />
-    <None Include="..\..\build.msbuild" />
-  </ItemGroup>
 
-  <Import Project="..\..\build.msbuild" />
+  <ItemGroup>
+    <None Include="..\..\build.msbuild" />
+    <None Include="..\**\*.js" />
+  </ItemGroup>
+  
+  <Target Name="RealBuild" AfterTargets="Build">
+    <Message Importance="High" Text="Build for realtz" />
+    <MSBuild Projects="..\..\build.msbuild"></MSBuild>
+  </Target>
 
 </Project>
