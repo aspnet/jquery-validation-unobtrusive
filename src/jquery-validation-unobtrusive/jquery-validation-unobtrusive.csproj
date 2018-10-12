@@ -1,0 +1,13 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+  <ItemGroup>
+    <Content Include="..\**\*.js" />
+    <None Include="..\..\build.msbuild" />
+  </ItemGroup>
+
+  <Import Project="..\..\build.msbuild" />
+
+</Project>

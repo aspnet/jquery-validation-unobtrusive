@@ -3,6 +3,10 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.26124.0
 MinimumVisualStudioVersion = 15.0.26124.0
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{7DEF5890-8B4B-4FF7-8D5F-9C4CF22EF195}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "jquery-validation-unobtrusive", "src\jquery-validation-unobtrusive\jquery-validation-unobtrusive.csproj", "{8D497D4D-9200-4AE7-9A2D-BDED7CD682F6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -14,5 +18,22 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{8D497D4D-9200-4AE7-9A2D-BDED7CD682F6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8D497D4D-9200-4AE7-9A2D-BDED7CD682F6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8D497D4D-9200-4AE7-9A2D-BDED7CD682F6}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{8D497D4D-9200-4AE7-9A2D-BDED7CD682F6}.Debug|x64.Build.0 = Debug|Any CPU
+		{8D497D4D-9200-4AE7-9A2D-BDED7CD682F6}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{8D497D4D-9200-4AE7-9A2D-BDED7CD682F6}.Debug|x86.Build.0 = Debug|Any CPU
+		{8D497D4D-9200-4AE7-9A2D-BDED7CD682F6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8D497D4D-9200-4AE7-9A2D-BDED7CD682F6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8D497D4D-9200-4AE7-9A2D-BDED7CD682F6}.Release|x64.ActiveCfg = Release|Any CPU
+		{8D497D4D-9200-4AE7-9A2D-BDED7CD682F6}.Release|x64.Build.0 = Release|Any CPU
+		{8D497D4D-9200-4AE7-9A2D-BDED7CD682F6}.Release|x86.ActiveCfg = Release|Any CPU
+		{8D497D4D-9200-4AE7-9A2D-BDED7CD682F6}.Release|x86.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{8D497D4D-9200-4AE7-9A2D-BDED7CD682F6} = {7DEF5890-8B4B-4FF7-8D5F-9C4CF22EF195}
 	EndGlobalSection
 EndGlobal

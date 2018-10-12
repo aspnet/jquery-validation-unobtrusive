@@ -1,1 +1,8 @@
-3.2.11
+<Project>
+  <PropertyGroup>
+    <VersionPrefix>3.2.11</VersionPrefix>
+    <VersionSuffix></VersionSuffix>
+    <BuildNumber Condition="'$(BuildNumber)' == ''">t000</BuildNumber>
+    <FeatureBranchVersionPrefix Condition="'$(FeatureBranchVersionPrefix)' == ''">a-</FeatureBranchVersionPrefix>
+  </PropertyGroup>
+</Project>

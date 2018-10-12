@@ -1,9 +1,6 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-    <ItemGroup>
-        <VersionFile Include="version.props"/>
-    </ItemGroup>
     <PropertyGroup>
-        <NuspecPath>Microsoft.jQuery.Unobtrusive.Validation.nuspec</NuspecPath>
+        <NuspecPath>$(MSBuildThisFileDirectory)Microsoft.jQuery.Unobtrusive.Validation.nuspec</NuspecPath>
         <DistDir>$(MSBuildThisFileDirectory)dist\</DistDir>
         <ArtifactsDir>$(MSBuildThisFileDirectory)artifacts\build\</ArtifactsDir>
         <WebPackTestDir>$(MSBuildThisFileDirectory)test\webpacktest\</WebPackTestDir>
@@ -14,12 +11,9 @@
     </ItemGroup>
 
     <Target Name="Build">
-        <ReadLinesFromFile File="@(VersionFile)">
-            <Output TaskParameter="Lines" PropertyName="PackageVersion"/>
-        </ReadLinesFromFile>
-        <Exec Command="npm install" />
-        <Exec Command="npm version --no-git-tag-version --allow-same-version $(PackageVersion)" />
-        <Exec Command="$(MSBuildThisFileDirectory)node_modules\.bin\gulp" />
+        <Exec Command="npm install" WorkingDirectory="$(MSBuildThisFileDirectory)" />
+        <Exec Command="npm version --no-git-tag-version --allow-same-version $(PackageVersion)" WorkingDirectory="$(MSBuildThisFileDirectory)" />
+        <Exec Command="$(MSBuildThisFileDirectory)node_modules\.bin\gulp" WorkingDirectory="$(MSBuildThisFileDirectory)" />
         <MakeDir Directories="$(ArtifactsDir)" />
         <Copy
             SourceFiles="@(DistDirFiles)"
