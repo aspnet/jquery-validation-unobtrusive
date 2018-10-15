@@ -10,11 +10,7 @@
     <_UnobtrusiveOutputs Include="..\..\..\dist\jquery.validate.unobtrusive.min.js" />
   </ItemGroup>
 
-  <Target
-    Name="EnsureLatestUnobtrusive"
-    BeforeTargets="Build"
-    Inputs="@(_UnobtrusiveInputs)"
-    Outputs="@(_UnobtrusiveOutputs)">
+  <Target Name="EnsureLatestUnobtrusive" BeforeTargets="Build" Inputs="@(_UnobtrusiveInputs)" Outputs="@(_UnobtrusiveOutputs)">
     <Message Importance="high" Text="Building jquery-validation-unobtrusive" />
     <MSBuild Projects="..\..\..\src\jquery-validation-unobtrusive\jquery-validation-unobtrusive.csproj" />
     <Copy SourceFiles="@(_UnobtrusiveOutputs)" DestinationFolder="$(MSBuildThisFileDirectory)wwwroot\lib\jquery-validation-unobtrusive" />

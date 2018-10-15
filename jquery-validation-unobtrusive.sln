@@ -11,6 +11,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{408B6FEF-7
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "jquery-validation-unobtrusive.FunctionalTests", "test\jquery-validation-unobtrusive.FunctionalTests\jquery-validation-unobtrusive.FunctionalTests.csproj", "{B1692563-A699-43F8-8C02-049276DD6E13}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Websites", "Websites", "{F07D9B49-A8B7-4AF3-9E25-9B657CFE41D4}"
+	ProjectSection(SolutionItems) = preProject
+		test\Websites\Directory.Build.props = test\Websites\Directory.Build.props
+	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ClientValidationWebSite", "test\Websites\ClientValidationWebSite\ClientValidationWebSite.csproj", "{214C5194-BA72-4D57-AEBB-72312532CC33}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -45,6 +52,18 @@ Global
 		{B1692563-A699-43F8-8C02-049276DD6E13}.Release|x64.Build.0 = Release|Any CPU
 		{B1692563-A699-43F8-8C02-049276DD6E13}.Release|x86.ActiveCfg = Release|Any CPU
 		{B1692563-A699-43F8-8C02-049276DD6E13}.Release|x86.Build.0 = Release|Any CPU
+		{214C5194-BA72-4D57-AEBB-72312532CC33}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{214C5194-BA72-4D57-AEBB-72312532CC33}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{214C5194-BA72-4D57-AEBB-72312532CC33}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{214C5194-BA72-4D57-AEBB-72312532CC33}.Debug|x64.Build.0 = Debug|Any CPU
+		{214C5194-BA72-4D57-AEBB-72312532CC33}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{214C5194-BA72-4D57-AEBB-72312532CC33}.Debug|x86.Build.0 = Debug|Any CPU
+		{214C5194-BA72-4D57-AEBB-72312532CC33}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{214C5194-BA72-4D57-AEBB-72312532CC33}.Release|Any CPU.Build.0 = Release|Any CPU
+		{214C5194-BA72-4D57-AEBB-72312532CC33}.Release|x64.ActiveCfg = Release|Any CPU
+		{214C5194-BA72-4D57-AEBB-72312532CC33}.Release|x64.Build.0 = Release|Any CPU
+		{214C5194-BA72-4D57-AEBB-72312532CC33}.Release|x86.ActiveCfg = Release|Any CPU
+		{214C5194-BA72-4D57-AEBB-72312532CC33}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -52,8 +71,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{8D497D4D-9200-4AE7-9A2D-BDED7CD682F6} = {7DEF5890-8B4B-4FF7-8D5F-9C4CF22EF195}
 		{B1692563-A699-43F8-8C02-049276DD6E13} = {408B6FEF-7A33-45DB-A826-1059A61E5CF2}
-	EndGlobalSection
-	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {2D902945-AB29-46DF-988B-1F344620A6FE}
+		{F07D9B49-A8B7-4AF3-9E25-9B657CFE41D4} = {408B6FEF-7A33-45DB-A826-1059A61E5CF2}
+		{214C5194-BA72-4D57-AEBB-72312532CC33} = {F07D9B49-A8B7-4AF3-9E25-9B657CFE41D4}
 	EndGlobalSection
 EndGlobal

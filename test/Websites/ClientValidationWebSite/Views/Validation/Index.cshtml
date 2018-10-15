@@ -1,0 +1,19 @@
+﻿@model ValidationModel
+@{
+    ViewData["Title"] = "Client side validation";
+}
+
+<h2>Client side validation form</h2>
+<div asp-validation-summary="All"></div>
+<form asp-action="Validate">
+    <div class="form-group">
+        <label asp-for="Name" />
+        <input asp-for="Name" class="form-control" />
+        <span asp-validation-for="Name"></span>
+    </div>
+    <input type="submit" />
+</form>
+
+@section scripts{
+    <partial name="_ValidationScriptsPartial" />
+}
