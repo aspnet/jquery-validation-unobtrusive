@@ -17,5 +17,33 @@ namespace ClientValidationWebSite.Controllers
         {
             return RedirectToAction("Error", "Home");
         }
+
+        [HttpPost]
+        [Produces("application/json")]
+        public IActionResult UserName([FromForm] string userName)
+        {
+            if (!userName.StartsWith("a"))
+            {
+                return Ok(false);
+            }
+            else
+            {
+                return Ok(true);
+            }
+        }
+
+        [HttpGet]
+        [Produces("application/json")]
+        public IActionResult Likes([FromQuery] int likes)
+        {
+            if (likes < 0)
+            {
+                return Ok(false);
+            }
+            else
+            {
+                return Ok(true);
+            }
+        }
     }
 }

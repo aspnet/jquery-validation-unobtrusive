@@ -7,6 +7,7 @@
 /*global document: false, jQuery: false */
 
 (function (factory) {
+
     if (typeof define === 'function' && define.amd) {
         // AMD. Register as an anonymous module.
         define("jquery.validate.unobtrusive", ['jquery-validation'], factory);
