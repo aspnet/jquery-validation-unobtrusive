@@ -44,8 +44,8 @@
     <MicrosoftAspNetCoreResponseCachingPackageVersion>2.2.0-preview3-35359</MicrosoftAspNetCoreResponseCachingPackageVersion>
     <MicrosoftAspNetCoreRoutingAbstractionsPackageVersion>2.2.0-a-preview3-address-scheme-17059</MicrosoftAspNetCoreRoutingAbstractionsPackageVersion>
     <MicrosoftAspNetCoreRoutingPackageVersion>2.2.0-a-preview3-address-scheme-17059</MicrosoftAspNetCoreRoutingPackageVersion>
-    <MicrosoftAspNetCoreServerIISPackageVersion>2.2.0-preview3-35359</MicrosoftAspNetCoreServerIISPackageVersion>
     <MicrosoftAspNetCoreServerIISIntegrationPackageVersion>2.2.0-preview3-35359</MicrosoftAspNetCoreServerIISIntegrationPackageVersion>
+    <MicrosoftAspNetCoreServerIntegrationTestingPackageVersion>0.7.0-alpha1-10617</MicrosoftAspNetCoreServerIntegrationTestingPackageVersion>    <MicrosoftAspNetCoreServerIISPackageVersion>2.2.0-preview3-35359</MicrosoftAspNetCoreServerIISPackageVersion>
     <MicrosoftAspNetCoreServerKestrelPackageVersion>2.2.0-preview3-35359</MicrosoftAspNetCoreServerKestrelPackageVersion>
     <MicrosoftAspNetCoreSessionPackageVersion>2.2.0-preview3-35359</MicrosoftAspNetCoreSessionPackageVersion>
     <MicrosoftAspNetCoreStaticFilesPackageVersion>2.2.0-preview3-35359</MicrosoftAspNetCoreStaticFilesPackageVersion>
