@@ -6,9 +6,10 @@ namespace ClientValidationWebSite.Controllers
     [Route("[controller]/[action]")]
     public class ValidationController : Controller
     {
-        [HttpGet]
-        public IActionResult Index()
+        [HttpGet("{property=LastName}")]
+        public IActionResult Index([FromRoute] string property)
         {
+            ViewData[nameof(property)] = property;
             return View();
         }
 

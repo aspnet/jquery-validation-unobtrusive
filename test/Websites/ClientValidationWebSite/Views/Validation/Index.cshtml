@@ -1,96 +1,137 @@
 ﻿@model ValidationModel
 @{
     ViewData["Title"] = "Client side validation";
+    var property = (string)(ViewData["property"]);
 }
 
 <h2>Client side validation form</h2>
-<div asp-validation-summary="All"></div>
-<form asp-action="Validate" novalidate>
-    <div class="form-group">
-        <label asp-for="Name"></label>
-        <input asp-for="Name" class="form-control" />
-        <span asp-validation-for="Name"></span>
-    </div>
+<form asp-action="Validate" novalidate id="client-validation-form">
+    <div asp-validation-summary="All"></div>
+    @if (string.Equals(property, nameof(ValidationModel.Name), StringComparison.OrdinalIgnoreCase))
+    {
+        <div class="form-group">
+            <label asp-for="Name"></label>
+            <input asp-for="Name" class="form-control" />
+            <span asp-validation-for="Name"></span>
+        </div>
+    }
 
-    <div class="form-group">
-        <label asp-for="LastName"></label>
-        <input asp-for="LastName" class="form-control" />
-        <span asp-validation-for="LastName"></span>
-    </div>
+    @if (string.Equals(property, nameof(ValidationModel.LastName), StringComparison.OrdinalIgnoreCase))
+    {
+        <div class="form-group">
+            <label asp-for="LastName"></label>
+            <input asp-for="LastName" class="form-control" />
+            <span asp-validation-for="LastName"></span>
+        </div>
+    }
 
-    <div class="form-group">
-        <label asp-for="UserName"></label>
-        <input asp-for="UserName" class="form-control" />
-        <span asp-validation-for="UserName"></span>
-    </div>
+    @if (string.Equals(property, nameof(ValidationModel.UserName), StringComparison.OrdinalIgnoreCase))
+    {
+        <div class="form-group">
+            <label asp-for="UserName"></label>
+            <input asp-for="UserName" class="form-control" />
+            <span asp-validation-for="UserName"></span>
+        </div>
+    }
 
-    <div class="form-group">
-        <label asp-for="Password"></label>
-        <input asp-for="Password" class="form-control" />
-        <span asp-validation-for="Password"></span>
-    </div>
+    @if (string.Equals(property, nameof(ValidationModel.Password), StringComparison.OrdinalIgnoreCase))
+    {
+        <div class="form-group">
+            <label asp-for="Password"></label>
+            <input asp-for="Password" class="form-control" />
+            <span asp-validation-for="Password"></span>
+        </div>
 
-    <div class="form-group">
-        <label asp-for="PasswordConfirmation"></label>
-        <input asp-for="PasswordConfirmation" class="form-control" />
-        <span asp-validation-for="PasswordConfirmation"></span>
-    </div>
+        <div class="form-group">
+            <label asp-for="PasswordConfirmation"></label>
+            <input asp-for="PasswordConfirmation" class="form-control" />
+            <span asp-validation-for="PasswordConfirmation"></span>
+        </div>
+    }
 
-    <div class="form-group">
-        <label asp-for="Email"></label>
-        <input asp-for="Email" class="form-control" />
-        <span asp-validation-for="Email"></span>
-    </div>
+    @if (string.Equals(property, nameof(ValidationModel.Email), StringComparison.OrdinalIgnoreCase))
+    {
+        <div class="form-group">
+            <label asp-for="Email"></label>
+            <input asp-for="Email" class="form-control" />
+            <span asp-validation-for="Email"></span>
+        </div>
+    }
 
-    <div class="form-group">
-        <label asp-for="PhoneNumber"></label>
-        <input asp-for="PhoneNumber" class="form-control" />
-        <span asp-validation-for="PhoneNumber"></span>
-    </div>
+    @if (string.Equals(property, nameof(ValidationModel.PhoneNumber), StringComparison.OrdinalIgnoreCase))
+    {
+        <div class="form-group">
+            <label asp-for="PhoneNumber"></label>
+            <input asp-for="PhoneNumber" class="form-control" />
+            <span asp-validation-for="PhoneNumber"></span>
+        </div>
+    }
 
-    @*<div class="form-group">
+    @if (string.Equals(property, nameof(ValidationModel.CreditCard), StringComparison.OrdinalIgnoreCase))
+    {
+        <div class="form-group">
             <label asp-for="CreditCard"></label>
             <input asp-for="CreditCard" class="form-control" />
             <span asp-validation-for="CreditCard"></span>
-        </div>*@
+        </div>
+    }
 
-    <div class="form-group">
-        <label asp-for="Age"></label>
-        <input asp-for="Age" class="form-control" />
-        <span asp-validation-for="Age"></span>
-    </div>
+    @if (string.Equals(property, nameof(ValidationModel.Age), StringComparison.OrdinalIgnoreCase))
+    {
+        <div class="form-group">
+            <label asp-for="Age"></label>
+            <input asp-for="Age" class="form-control" />
+            <span asp-validation-for="Age"></span>
+        </div>
+    }
 
-    <div class="form-group">
-        <label asp-for="Rating"></label>
-        <input asp-for="Rating" class="form-control" />
-        <span asp-validation-for="Rating"></span>
-    </div>
+    @if (string.Equals(property, nameof(ValidationModel.Rating), StringComparison.OrdinalIgnoreCase))
+    {
+        <div class="form-group">
+            <label asp-for="Rating"></label>
+            <input asp-for="Rating" class="form-control" />
+            <span asp-validation-for="Rating"></span>
+        </div>
+    }
 
-    <div class="form-group">
-        <label asp-for="Tag"></label>
-        <input asp-for="Tag" class="form-control" />
-        <span asp-validation-for="Tag"></span>
-    </div>
+    @if (string.Equals(property, nameof(ValidationModel.Tag), StringComparison.OrdinalIgnoreCase))
+    {
+        <div class="form-group">
+            <label asp-for="Tag"></label>
+            <input asp-for="Tag" class="form-control" />
+            <span asp-validation-for="Tag"></span>
+        </div>
+    }
 
-    <div class="form-group">
-        <label asp-for="Photo"></label>
-        <input type="file" asp-for="Photo" class="form-control" />
-        <span asp-validation-for="Photo"></span>
-    </div>
+    @if (string.Equals(property, nameof(ValidationModel.Photo), StringComparison.OrdinalIgnoreCase))
+    {
+        <div class="form-group">
+            <label asp-for="Photo"></label>
+            <input type="file" asp-for="Photo" class="form-control" />
+            <span asp-validation-for="Photo"></span>
+        </div>
+    }
 
-    <div class="form-group">
-        <label asp-for="WebPage"></label>
-        <input asp-for="WebPage" class="form-control" />
-        <span asp-validation-for="WebPage"></span>
-    </div>
+    @if (string.Equals(property, nameof(ValidationModel.WebPage), StringComparison.OrdinalIgnoreCase))
+    {
+        <div class="form-group">
+            <label asp-for="WebPage"></label>
+            <input asp-for="WebPage" class="form-control" />
+            <span asp-validation-for="WebPage"></span>
+        </div>
+    }
 
-    <div class="form-group">
-        <label asp-for="Likes"></label>
-        <input asp-for="Likes" class="form-control" />
-        <span asp-validation-for="Likes"></span>
-    </div>
+    @if (string.Equals(property, nameof(ValidationModel.Likes), StringComparison.OrdinalIgnoreCase))
+    {
+        <div class="form-group">
+            <label asp-for="Likes"></label>
+            <input asp-for="Likes" class="form-control" />
+            <span asp-validation-for="Likes"></span>
+        </div>
+    }
 
-    <input type="submit" />
+    <input type="submit" id="regular-submit" />
+    <input type="reset" id="reset-button" />
 </form>
 
 @section scripts{

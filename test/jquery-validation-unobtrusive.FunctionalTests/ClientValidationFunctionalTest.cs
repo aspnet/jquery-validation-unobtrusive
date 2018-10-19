@@ -6,15 +6,18 @@ using System.Diagnostics;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Server.IntegrationTesting;
+using Microsoft.AspNetCore.Testing;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Testing;
 using Xunit;
 using Xunit.Abstractions;
 
 namespace Jquery.Validation.Unobtrusive.FunctionalTests
 {
-    public class CorsMiddlewareFunctionalTests : LoggedTest
+    public class ClientValidationFunctionalTest : LoggedTest
     {
-        public CorsMiddlewareFunctionalTests(ITestOutputHelper output)
+        public ClientValidationFunctionalTest(ITestOutputHelper output)
             : base(output)
         {
             Output = output;
@@ -55,9 +58,9 @@ namespace Jquery.Validation.Unobtrusive.FunctionalTests
             }
         }
 
-        private static async Task<SamplesDeploymentResult> CreateDeployments(ILoggerFactory loggerFactory)
+        private static async Task<ClientParametersDeploymentResult> CreateDeployments(ILoggerFactory loggerFactory)
         {
-            var solutionPath = TestPathUtilities.GetSolutionRootDirectory("CORS");
+            var solutionPath = TestPathUtilities.GetSolutionRootDirectory("jquery-validation-unobtrusive");
 
             var runtimeFlavor = GetRuntimeFlavor();
             var applicationType = runtimeFlavor == RuntimeFlavor.Clr ? ApplicationType.Standalone : ApplicationType.Portable;
@@ -69,33 +72,20 @@ namespace Jquery.Validation.Unobtrusive.FunctionalTests
                 "Debug";
 #endif
 
-            var destinationParameters = new DeploymentParameters
+            var clientValidationWebSiteParameters = new DeploymentParameters
             {
                 RuntimeFlavor = runtimeFlavor,
                 ServerType = ServerType.Kestrel,
-                ApplicationPath = Path.Combine(solutionPath, "samples", "SampleDestination"),
+                ApplicationPath = Path.Combine(solutionPath, "test", "Websites", "ClientValidationWebSite"),
                 PublishApplicationBeforeDeployment = false,
                 ApplicationType = applicationType,
                 Configuration = configuration,
             };
 
-            var destinationFactory = ApplicationDeployerFactory.Create(destinationParameters, loggerFactory);
-            var destinationDeployment = await destinationFactory.DeployAsync();
+            var clientValidationWebSiteFactory = ApplicationDeployerFactory.Create(clientValidationWebSiteParameters, loggerFactory);
+            var clientValidationWebSiteDeployment = await clientValidationWebSiteFactory.DeployAsync();
 
-            var originParameters = new DeploymentParameters
-            {
-                RuntimeFlavor = runtimeFlavor,
-                ServerType = ServerType.Kestrel,
-                ApplicationPath = Path.Combine(solutionPath, "samples", "SampleOrigin"),
-                PublishApplicationBeforeDeployment = false,
-                ApplicationType = applicationType,
-                Configuration = configuration,
-            };
-
-            var originFactory = ApplicationDeployerFactory.Create(originParameters, loggerFactory);
-            var originDeployment = await originFactory.DeployAsync();
-
-            return new SamplesDeploymentResult(originFactory, originDeployment, destinationFactory, destinationDeployment);
+            return new ClientParametersDeploymentResult(clientValidationWebSiteFactory, clientValidationWebSiteDeployment);
         }
 
         private static RuntimeFlavor GetRuntimeFlavor()
@@ -109,32 +99,23 @@ namespace Jquery.Validation.Unobtrusive.FunctionalTests
 #endif
         }
 
-        private readonly struct SamplesDeploymentResult : IDisposable
+        private readonly struct ClientParametersDeploymentResult : IDisposable
         {
-            public SamplesDeploymentResult(
-                ApplicationDeployer originDeployer,
-                DeploymentResult originResult,
-                ApplicationDeployer destinationDeployer,
-                DeploymentResult destinationResult)
+            public ClientParametersDeploymentResult(
+                ApplicationDeployer clientValidationWebSiteDeployer,
+                DeploymentResult clientValidationWebSiteResult)
             {
-                OriginDeployer = originDeployer;
-                OriginResult = originResult;
-                DestinationDeployer = destinationDeployer;
-                DestinationResult = destinationResult;
+                ClientValidationWebSiteDeployer = clientValidationWebSiteDeployer;
+                ClientValidationWebSiteResult = clientValidationWebSiteResult;
             }
 
-            public ApplicationDeployer OriginDeployer { get; }
+            public ApplicationDeployer ClientValidationWebSiteDeployer { get; }
 
-            public DeploymentResult OriginResult { get; }
-
-            public ApplicationDeployer DestinationDeployer { get; }
-
-            public DeploymentResult DestinationResult { get; }
+            public DeploymentResult ClientValidationWebSiteResult { get; }
 
             public void Dispose()
             {
-                OriginDeployer.Dispose();
-                DestinationDeployer.Dispose();
+                ClientValidationWebSiteDeployer.Dispose();
             }
         }
     }

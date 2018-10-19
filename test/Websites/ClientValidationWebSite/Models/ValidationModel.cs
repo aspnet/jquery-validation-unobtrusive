@@ -37,7 +37,7 @@ namespace ClientValidationWebSite.Models
 
         [Required]
         [StringLength(15, MinimumLength = 8)]
-        [RegularExpression("webassembly")]
+        [RegularExpression("web\\..*")]
         public string Tag { get; set; }
 
         [Required]
