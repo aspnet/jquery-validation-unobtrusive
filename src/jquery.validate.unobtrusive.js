@@ -398,7 +398,7 @@
                 var field = $(options.form).find(":input").filter("[name='" + escapeAttributeValue(paramName) + "']");
                 // For checkboxes and radio buttons, only pick up values from checked fields.
                 if (field.is(":checkbox")) {
-                    return field.filter(":checked").val() || field.filter(":hidden").val() || '';
+                    return field.filter(":checked").val() || field.filter("[type='hidden']").val() || '';
                 }
                 else if (field.is(":radio")) {
                     return field.filter(":checked").val() || '';
