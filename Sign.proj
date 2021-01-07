@@ -38,6 +38,8 @@
       <Output TaskParameter="ConsoleOutput" PropertyName="_VSInstallDir" />
     </Exec>
 
+    <Message Text="Signing files: %(ItemsToSign.Identity)" Importance="High"/>
+
     <PropertyGroup Condition="$(_DesktopMSBuildRequired)">
       <_DesktopMSBuildPath>$(_VSInstallDir)\MSBuild\Current\Bin\msbuild.exe</_DesktopMSBuildPath>
       <_DesktopMSBuildPath Condition="!Exists('$(_DesktopMSBuildPath)')">$(_VSInstallDir)\MSBuild\15.0\Bin\msbuild.exe</_DesktopMSBuildPath>

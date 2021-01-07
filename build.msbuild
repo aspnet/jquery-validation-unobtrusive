@@ -39,7 +39,7 @@
             Properties="PackageVersion=$(PackageVersion)"
             Targets="Test" />
 
-        <Message Text="Signing files..." Condition="'$(Sign)' == 'true'"/>
+        <Message Text="Signing files..." Importance="High" Condition="'$(Sign)' == 'true'"/>
         <MSBuild Projects="Sign.proj"
          Targets="Sign"
          Properties="MicrosoftDotNetSignToolVersion=$(MicrosoftDotNetSignToolVersion);ArtifactsDir=$(ArtifactsDir);DotNetSignType=$(SignType)"
