@@ -1,1 +1,1 @@
-dotnet msbuild .\build.msbuild $args
+dotnet build .\build.msbuild $args
