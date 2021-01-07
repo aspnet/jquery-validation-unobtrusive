@@ -7,7 +7,7 @@
         <DistDir>$(MSBuildThisFileDirectory)dist\</DistDir>
         <ArtifactsDir>$(MSBuildThisFileDirectory)artifacts\build\</ArtifactsDir>
         <WebPackTestDir>$(MSBuildThisFileDirectory)test\webpacktest\</WebPackTestDir>
-        <TargetFramework>net6.0</TargetFramework>
+        <TargetFramework>netcoreapp3.1</TargetFramework>
     </PropertyGroup>
 
     <PropertyGroup>
