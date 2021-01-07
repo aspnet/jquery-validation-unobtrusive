@@ -17,4 +17,5 @@ phases:
       codeSign: true
       ${{ if eq(variables['System.TeamProject'], 'internal') }}:
         buildArgs: |
-          '/p:OfficialBuild=true'
+          '/p:OfficialBuild=true
+           /p:Sign=true'

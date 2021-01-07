@@ -42,7 +42,7 @@
         <Message Text="Signing files..." Condition="'$(Sign)' == 'true'"/>
         <MSBuild Projects="Sign.proj"
          Targets="Sign"
-         Properties="MicrosoftDotNetSignToolVersion=$(MicrosoftDotNetSignToolVersion);ArtifactsDir=$(ArtifactsDir)"
+         Properties="MicrosoftDotNetSignToolVersion=$(MicrosoftDotNetSignToolVersion);ArtifactsDir=$(ArtifactsDir);DotNetSignType=$(SignType)"
          Condition="'$(Sign)' == 'true'"/>
     </Target>
 
