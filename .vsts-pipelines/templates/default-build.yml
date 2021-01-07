@@ -1,41 +1,3 @@
-Skip to content
-Search or jump to…
-
-Pull requests
-Issues
-Marketplace
-Explore
- 
-@wtgodbe 
-Learn Git and GitHub without any code!
-Using the Hello World guide, you’ll start a branch, write comments, and open a pull request.
-
-
-aspnet
-/
-BuildTools
-39
-65
-37
-Code
-Issues
-1
-Pull requests
-Actions
-Projects
-Wiki
-Security
-Insights
-Settings
-BuildTools/.azure/pipelines/jobs/default-build.yml
-@natemcmaster
-natemcmaster Move YAML templates (other repos shouldn't be using these anymore), a…
-…
-Latest commit 371c5c0 on May 30, 2019
- History
- 1 contributor
- 148 lines (145 sloc)  6.45 KB
-  
 # default-build.yml
 # Description: Defines a build phase for invoking build.sh/cmd
 # Parameters:
@@ -184,15 +146,3 @@ jobs:
     - task: MicroBuildCleanup@1
       displayName: Cleanup MicroBuild tasks
       condition: always()
-© 2021 GitHub, Inc.
-Terms
-Privacy
-Security
-Status
-Help
-Contact GitHub
-Pricing
-API
-Training
-Blog
-About
