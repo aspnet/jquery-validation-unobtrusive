@@ -1,1 +1,1 @@
-dotnet build .\build.proj $args
+dotnet build .\build.csproj $args
