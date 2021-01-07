@@ -22,6 +22,10 @@
         <PackageReference Include="Microsoft.DotNet.SignTool" Version="$(MicrosoftDotNetSignToolVersion)"/>
     </ItemGroup>
 
+    <ItemGroup>
+        <PackageReference Remove="Localization" />
+    </ItemGroup>
+
     <Target Name="Build">
         <ReadLinesFromFile File="@(VersionFile)">
             <Output TaskParameter="Lines" PropertyName="PackageVersion"/>
