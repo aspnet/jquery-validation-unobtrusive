@@ -17,7 +17,7 @@
         <DistDirFiles Include="$(DistDir)*.*;"/>
     </ItemGroup>
 
-    <ItemGroup>
+    <ItemGroup Condition="'$(Sign)' == 'true'">
         <PackageReference Include="Microsoft.DotNet.SignTool" Version="$(MicrosoftDotNetSignToolVersion)"/>
     </ItemGroup>
 
