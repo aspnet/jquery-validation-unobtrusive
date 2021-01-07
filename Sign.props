@@ -1,4 +1,6 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <Import Project="dependencies.props" />
   <ItemGroup>
     <!--
       This is intended to hold information about the certificates used for signing.
