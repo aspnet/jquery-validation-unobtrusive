@@ -112,7 +112,7 @@ jobs:
   - ${{ parameters.beforeBuild }}
   - ${{ if eq(parameters.buildSteps, '') }}:
     - ${{ if eq(parameters.agentOs, 'Windows') }}:
-      - script: .\build.cmd -ci /p:SignType=$(_SignType) /p:Configuration=$(BuildConfiguration) $(BuildScriptArgs)
+      - script: .\build.cmd /p:SignType=$(_SignType) /p:Configuration=$(BuildConfiguration) $(BuildScriptArgs)
         displayName: Run build.cmd
     - ${{ if ne(parameters.agentOs, 'Windows') }}:
       - script: ./build.sh -ci -p:Configuration=$(BuildConfiguration) $(BuildScriptArgs)
