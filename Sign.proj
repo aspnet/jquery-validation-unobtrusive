@@ -11,6 +11,8 @@
     <ArtifactsLogDir>$(ArtifactsDir)..\logs\</ArtifactsLogDir>
   </PropertyGroup>
 
+  <Import Project="dependencies.props" />
+
   <Import Project="$(NuGetPackageRoot)microsoft.dotnet.signtool\$(MicrosoftDotNetSignToolVersion)\build\Microsoft.DotNet.SignTool.props" />
 
   <Import Project="Sign.props" />
