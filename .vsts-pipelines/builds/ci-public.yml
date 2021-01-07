@@ -11,6 +11,6 @@ pr:
     - '*'
 
 phases:
-  - template: .vsts-pipelines/templates/default-build.yml
+  - template: ../templates/default-build.yml
     parameters:
       agentOs: Windows
