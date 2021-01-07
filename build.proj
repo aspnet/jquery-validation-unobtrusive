@@ -12,6 +12,7 @@
 
     <PropertyGroup>
         <MicrosoftDotNetSignToolVersion>6.0.0-beta.20630.2</MicrosoftDotNetSignToolVersion>
+        <VSWhereVersion Condition="'$(VSWhereVersion)' == ''">2.6.7</VSWhereVersion>
     </PropertyGroup>
 
     <ItemGroup>
@@ -20,6 +21,7 @@
 
     <ItemGroup Condition="'$(Sign)' == 'true'">
         <PackageReference Include="Microsoft.DotNet.SignTool" Version="$(MicrosoftDotNetSignToolVersion)"/>
+        <PackageReference Include="vswhere" Version="$(VSWhereVersion)"/>
     </ItemGroup>
 
     <Target Name="BuildProjects">
@@ -43,7 +45,7 @@
         <Message Text="Signing files..." Importance="High" Condition="'$(Sign)' == 'true'"/>
         <MSBuild Projects="Sign.proj"
          Targets="Sign"
-         Properties="MicrosoftDotNetSignToolVersion=$(MicrosoftDotNetSignToolVersion);ArtifactsDir=$(ArtifactsDir);DotNetSignType=$(SignType)"
+         Properties="MicrosoftDotNetSignToolVersion=$(MicrosoftDotNetSignToolVersion);VSWhereVersion=$(VSWhereVersion);ArtifactsDir=$(ArtifactsDir);DotNetSignType=$(SignType)"
          Condition="'$(Sign)' == 'true'"/>
     </Target>
 
