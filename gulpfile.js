@@ -5,8 +5,8 @@ var gulp = require("gulp"),
     lec = require('gulp-line-ending-corrector'),
     pkg = require('./package.json');
 
-gulp.task("minifyJS", function(){
-    gulp.src(["src/jquery.validate.unobtrusive.js"])
+function minifyjs() {
+    return gulp.src(["src/jquery.validate.unobtrusive.js"])
         .pipe(replace(/@version.*/, '@version v' + pkg.version))
         .pipe(gulp.dest("dist"))
         .pipe(uglify({
@@ -15,6 +15,6 @@ gulp.task("minifyJS", function(){
         .pipe(lec({eolc: 'CRLF'}))
         .pipe(rename({suffix: '.min'}))
         .pipe(gulp.dest("dist"));
-});
+}
 
-gulp.task("default", ["minifyJS"]);
+exports.default = minifyjs;
