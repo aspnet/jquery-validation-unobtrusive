@@ -1,6 +1,14 @@
 trigger:
-- master
-- release/*
+  branches:
+    include:
+    - 'master'
+    - 'release/*'
+    - 'internal/release/*'
+# Run PR validation on all branches
+pr:
+  branches:
+    include:
+    - '*'
 
 resources:
   repositories:
@@ -11,6 +19,6 @@ resources:
     ref: refs/heads/release/2.2
 
 phases:
-  - template: .vsts-pipelines/templates/phases/default-build.yml@buildtools
+  - template: .vsts-pipelines/templates/default-build.yml
     parameters:
       agentOs: Windows
