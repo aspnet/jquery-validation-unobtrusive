@@ -9,8 +9,16 @@
         <WebPackTestDir>$(MSBuildThisFileDirectory)test\webpacktest\</WebPackTestDir>
     </PropertyGroup>
 
+    <PropertyGroup>
+        <MicrosoftDotNetSignToolVersion>6.0.0-beta.20630.2</MicrosoftDotNetSignToolVersion>
+    </PropertyGroup>
+
     <ItemGroup>
         <DistDirFiles Include="$(DistDir)*.*;"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Microsoft.DotNet.SignTool" Version="$(MicrosoftDotNetSignToolVersion)"/>
     </ItemGroup>
 
     <Target Name="Build">
@@ -30,6 +38,12 @@
         <MSBuild Projects ="$(MSBuildProjectFullPath)"
             Properties="PackageVersion=$(PackageVersion)"
             Targets="Test" />
+
+        <Message Text="Signing files..." Condition="'$(Sign)' == 'true'"/>
+        <MSBuild Projects="Sign.proj"
+         Targets="Sign"
+         Properties="MicrosoftDotNetSignToolVersion=$(MicrosoftDotNetSignToolVersion);ArtifactsDir=$(ArtifactsDir)"
+         Condition="'$(Sign)' == 'true'"/>
     </Target>
 
     <Target Name="Test">
