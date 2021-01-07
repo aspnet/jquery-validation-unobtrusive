@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk" DefaultTargets="BuildProjects">
     <ItemGroup>
         <VersionFile Include="version.props"/>
     </ItemGroup>
@@ -22,7 +22,7 @@
         <PackageReference Include="Microsoft.DotNet.SignTool" Version="$(MicrosoftDotNetSignToolVersion)"/>
     </ItemGroup>
 
-    <Target Name="Build">
+    <Target Name="BuildProjects">
         <ReadLinesFromFile File="@(VersionFile)">
             <Output TaskParameter="Lines" PropertyName="PackageVersion"/>
         </ReadLinesFromFile>
