@@ -116,6 +116,8 @@ jobs:
   - ${{ parameters.beforeBuild }}
   - ${{ if eq(parameters.buildSteps, '') }}:
     - ${{ if eq(parameters.agentOs, 'Windows') }}:
+      - task: NuGetToolInstaller@1
+        displayName: 'Install NuGet.exe'
       - task: NodeTool@0
         displayName: Install Node 10.x
         inputs:
