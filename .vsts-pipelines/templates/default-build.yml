@@ -102,7 +102,7 @@ jobs:
         command: custom
         arguments: 'locals all -clear'
   - ${{ if and(eq(variables['System.TeamProject'], 'internal'), eq(parameters.agentOs, 'Windows'), eq(parameters.codeSign, 'true')) }}:
-    - task: MicroBuildSigningPlugin@1
+    - task: MicroBuildSigningPlugin@2
       displayName: Install MicroBuild Signing plugin
       condition: and(succeeded(), in(variables['_SignType'], 'test', 'real'))
       inputs:
