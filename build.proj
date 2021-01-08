@@ -9,7 +9,7 @@
         <DistDir>$(MSBuildThisFileDirectory)dist\</DistDir>
         <ArtifactsDir>$(MSBuildThisFileDirectory)artifacts\build\</ArtifactsDir>
         <WebPackTestDir>$(MSBuildThisFileDirectory)test\webpacktest\</WebPackTestDir>
-        <TargetFramework>netcoreapp2.1</TargetFramework>
+        <TargetFramework>netcoreapp3.1</TargetFramework>
     </PropertyGroup>
 
     <ItemGroup>
