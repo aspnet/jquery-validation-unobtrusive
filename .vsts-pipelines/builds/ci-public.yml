@@ -1,16 +1,19 @@
 trigger:
-- master
-- release/*
-
-resources:
-  repositories:
-  - repository: buildtools
-    type: github
-    endpoint: DotNet-Bot GitHub Connection
-    name: aspnet/BuildTools
-    ref: refs/heads/release/2.2
+  branches:
+    include:
+    - 'master'
+    - 'release/*'
+    - 'internal/release/*'
+# Run PR validation on all branches
+pr:
+  branches:
+    include:
+    - '*'
 
 phases:
-  - template: .vsts-pipelines/templates/phases/default-build.yml@buildtools
+  - template: ../templates/default-build.yml
     parameters:
       agentOs: Windows
+      codeSign: true
+      ${{ if eq(variables['System.TeamProject'], 'internal') }}:
+        buildArgs: '/p:OfficialBuild=true /p:Sign=true'
