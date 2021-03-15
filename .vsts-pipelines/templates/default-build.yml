@@ -68,7 +68,7 @@ jobs:
       maxParallel: 8
       matrix: ${{ parameters.matrix }}
   # Map friendly OS names to the right queue
-  # See https://github.com/dotnet/arcade/blob/master/Documentation/ChoosingAMachinePool.md and
+  # See https://github.com/dotnet/arcade/blob/main/Documentation/ChoosingAMachinePool.md and
   # https://docs.microsoft.com/en-us/azure/devops/pipelines/agents/hosted?view=azure-devops&tabs=yaml#use-a-microsoft-hosted-agent
   pool:
     ${{ if ne(parameters.poolName, '') }}:
@@ -89,7 +89,7 @@ jobs:
     DOTNET_HOME: $(Agent.BuildDirectory)/.dotnet
     BuildScriptArgs: ${{ parameters.buildArgs }}
     BuildConfiguration: ${{ parameters.configuration }}
-    DOTNET_CLI_TELEMETRY_OPTOUT: 1 # Skip signing telemetry to work around an error 
+    DOTNET_CLI_TELEMETRY_OPTOUT: 1 # Skip signing telemetry to work around an error
     TeamName: AspNetCore
     ${{ if and(eq(parameters.codeSign, 'true'), eq(variables['System.TeamProject'], 'internal'), ne(variables['Build.Reason'], 'PullRequest')) }}:
       _SignType: real
