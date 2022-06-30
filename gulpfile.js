@@ -10,10 +10,13 @@ function minifyjs() {
         .pipe(replace(/@version.*/, '@version v' + pkg.version))
         .pipe(gulp.dest("dist"))
         .pipe(uglify({
-            preserveComments: 'license'
+            mangle: true,
+            output: {
+                comments: "some"
+            }
         }))
-        .pipe(lec({eolc: 'CRLF'}))
-        .pipe(rename({suffix: '.min'}))
+        .pipe(lec({ eolc: 'CRLF' }))
+        .pipe(rename({ suffix: '.min' }))
         .pipe(gulp.dest("dist"));
 }
 
