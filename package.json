@@ -38,6 +38,6 @@
     "minimatch": ">=5.1.0"
   },
   "overrides": {
-    "glob-parent": "6.0.1"
+    "glob-parent": "~6.0.1"
   }
 }
