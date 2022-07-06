@@ -120,9 +120,9 @@ jobs:
       - task: NuGetToolInstaller@1
         displayName: 'Install NuGet.exe'
       - task: NodeTool@0
-        displayName: Install Node 16.x
+        displayName: Install Node 10.x
         inputs:
-          versionSpec: 16.x
+          versionSpec: 10.x
       - script: .\build.cmd /p:SignType=$(_SignType) /p:Configuration=$(BuildConfiguration) $(BuildScriptArgs) /bl:artifacts/logs/build.binlog
         displayName: Run build.cmd
     - ${{ if ne(parameters.agentOs, 'Windows') }}:
