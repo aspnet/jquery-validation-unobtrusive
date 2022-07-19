@@ -14,7 +14,7 @@
     <description>jQuery plugin that unobtrusively sets up jQuery.Validation.</description>
     <summary>The jQuery Unobtrusive Validation library complements jQuery Validation by adding support for specifying validation options as HTML5 data-* elements</summary>
     <releaseNotes>Please visit https://go.microsoft.com/fwlink/?LinkId=389866 to view the release notes.</releaseNotes>
-    <copyright>Copyright (c) .NET Foundation. All rights reserved.</copyright>
+    <copyright>© Microsoft Corporation. All rights reserved.</copyright>
     <tags>jQuery Unobtrusive</tags>
     <dependencies>
       <dependency id="jQuery" version="1.8.0" />
