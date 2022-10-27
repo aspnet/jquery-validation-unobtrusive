@@ -47,8 +47,8 @@ phases:
         afterBuild:
         - task: CodeQL3000Finalize@0
           displayName: CodeQL Finalize
-      codeSign: false
-      variables: ${{ parameters.variables }}
       ${{ else }}:
+        codeSign: false
         ${{ if eq(variables['System.TeamProject'], 'internal') }}:
           buildArgs: '/p:OfficialBuild=true /p:Sign=true'
+      variables: ${{ parameters.variables }}
