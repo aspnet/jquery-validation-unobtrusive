@@ -36,7 +36,7 @@ phases:
   - template: ../templates/default-build.yml
     parameters:
       agentOs: Windows
-      codeSign: true
+      variables: ${{ parameters.variables }}
       ${{ if or(eq(variables['Build.Reason'], 'Schedule'), and(eq(variables['Build.Reason'], 'Manual'), eq(parameters.runCodeQL3000, 'true'))) }}:
         codeSign: false
         beforeBuild: 
@@ -48,7 +48,6 @@ phases:
         - task: CodeQL3000Finalize@0
           displayName: CodeQL Finalize
       ${{ else }}:
-        codeSign: false
+        codeSign: true
         ${{ if eq(variables['System.TeamProject'], 'internal') }}:
           buildArgs: '/p:OfficialBuild=true /p:Sign=true'
-      variables: ${{ parameters.variables }}
