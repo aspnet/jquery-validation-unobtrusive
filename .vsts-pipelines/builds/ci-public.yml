@@ -36,7 +36,6 @@ phases:
   - template: ../templates/default-build.yml
     parameters:
       agentOs: Windows
-      variables: ${{ parameters.variables }}
       ${{ if or(eq(variables['Build.Reason'], 'Schedule'), and(eq(variables['Build.Reason'], 'Manual'), eq(parameters.runCodeQL3000, 'true'))) }}:
         codeSign: false
         beforeBuild: 
