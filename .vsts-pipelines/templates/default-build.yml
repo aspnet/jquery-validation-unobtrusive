@@ -8,7 +8,7 @@
 #   poolName: string
 #       The name of the Azure DevOps agent pool to use.
 #   agentOs: string
-#       Used in templates to define variables which are OS specific. Typically from the set { Windows, Linux, macOS }
+#       Used in templates to define variables which are OS specific. Currently Windows only.
 #   buildArgs: string
 #       Additional arguments to pass to the build.sh/cmd script.
 #       Note: -ci is always passed
@@ -48,6 +48,7 @@ parameters:
   afterBuild: []
   codeSign: false
   variables: {}
+  runCodeQL3000: false
   dependsOn: ''
   # buildSteps: [] - don't define an empty object default because there is no way in template expression yet to check "if isEmpty(parameters.buildSteps)"
   # jobName: '' - use agentOs by default.
@@ -73,16 +74,11 @@ jobs:
   pool:
     ${{ if ne(parameters.poolName, '') }}:
       name: ${{ parameters.poolName }}
-    ${{ if and(eq(parameters.poolName, ''), eq(parameters.agentOs, 'macOS')) }}:
-      vmImage: macOS-10.15
-    ${{ if and(eq(parameters.poolName, ''), eq(parameters.agentOs, 'Linux')) }}:
-      vmImage: ubuntu-18.04
-    ${{ if and(eq(parameters.poolName, ''), eq(parameters.agentOs, 'Windows')) }}:
-      vmImage: windows-latest
-      ${{ if ne(variables['System.TeamProject'], 'public') }}:
-        # This override makes the specified vmImage irrelevant.
-        name: NetCore1ESPool-Internal
-        demands: ImageOverride -equals Build.Server.Amd64.VS2019
+    vmImage: windows-latest
+    ${{ if ne(variables['System.TeamProject'], 'public') }}:
+      # This override makes the specified vmImage irrelevant.
+      name: NetCore1ESPool-Internal
+      demands: ImageOverride -equals Build.Server.Amd64.VS2019
   variables:
     AgentOsName: ${{ parameters.agentOs }}
     ASPNETCORE_TEST_LOG_MAXPATH: "200" # Keep test log file name length low enough for artifact zipping
@@ -95,18 +91,28 @@ jobs:
       _SignType: real
     ${{ if or(ne(parameters.codeSign, 'true'), ne(variables['System.TeamProject'], 'internal'), eq(variables['Build.Reason'], 'PullRequest')) }}:
       _SignType: ''
+    ${{ if eq(parameters.runCodeQL3000, 'true') }}:
+      # Do not let CodeQL3000 Extension gate scan frequency.
+      Codeql.Cadence: 0
+      # Enable CodeQL3000 unconditionally so it may be run on any branch.
+      Codeql.Enabled: true
+      # Ignore the small amount of infrastructure Python code in this repo.
+      Codeql.Language: cpp,csharp,java,javascript
+      Codeql.ExcludePathPatterns: submodules
+      Codeql.SourceRoot: src
+      # CodeQL3000 needs this plumbed along as a variable to enable TSA.
+      Codeql.TSAEnabled: ${{ eq(variables['Build.Reason'], 'Schedule') }}
     ${{ insert }}: ${{ parameters.variables }}
   steps:
   - checkout: self
     clean: true
-  - ${{ if eq(parameters.agentOs, 'Windows') }}:
-    - task: NuGetCommand@2
-      displayName: 'Clear NuGet caches'
-      condition: succeeded()
-      inputs:
-        command: custom
-        arguments: 'locals all -clear'
-  - ${{ if and(eq(variables['System.TeamProject'], 'internal'), eq(parameters.agentOs, 'Windows'), eq(parameters.codeSign, 'true')) }}:
+  - task: NuGetCommand@2
+    displayName: 'Clear NuGet caches'
+    condition: succeeded()
+    inputs:
+      command: custom
+      arguments: 'locals all -clear'
+  - ${{ if and(eq(variables['System.TeamProject'], 'internal'), eq(parameters.codeSign, 'true')) }}:
     - task: MicroBuildSigningPlugin@2
       displayName: Install MicroBuild Signing plugin
       condition: and(succeeded(), in(variables['_SignType'], 'test', 'real'))
@@ -116,18 +122,14 @@ jobs:
         feedSource: https://dnceng.pkgs.visualstudio.com/_packaging/MicroBuildToolset/nuget/v3/index.json
   - ${{ parameters.beforeBuild }}
   - ${{ if eq(parameters.buildSteps, '') }}:
-    - ${{ if eq(parameters.agentOs, 'Windows') }}:
-      - task: NuGetToolInstaller@1
-        displayName: 'Install NuGet.exe'
-      - task: NodeTool@0
-        displayName: Install Node 16.x
-        inputs:
-          versionSpec: 16.x
-      - script: .\build.cmd /p:SignType=$(_SignType) /p:Configuration=$(BuildConfiguration) $(BuildScriptArgs) /bl:artifacts/logs/build.binlog
-        displayName: Run build.cmd
-    - ${{ if ne(parameters.agentOs, 'Windows') }}:
-      - script: ./build.sh -ci -p:Configuration=$(BuildConfiguration) $(BuildScriptArgs)
-        displayName: Run build.sh
+    - task: NuGetToolInstaller@1
+      displayName: 'Install NuGet.exe'
+    - task: NodeTool@0
+      displayName: Install Node 16.x
+      inputs:
+        versionSpec: 16.x
+    - script: .\build.cmd /p:SignType=$(_SignType) /p:Configuration=$(BuildConfiguration) $(BuildScriptArgs) /bl:artifacts/logs/build.binlog
+      displayName: Run build.cmd
   - ${{ if ne(parameters.buildSteps, '') }}:
     - ${{ parameters.buildSteps }}
   - task: PublishTestResults@2
@@ -153,7 +155,7 @@ jobs:
         artifactType: Container
         parallel: true
   - ${{ parameters.afterBuild }}
-  - ${{ if and(eq(variables['System.TeamProject'], 'internal'), eq(parameters.agentOs, 'Windows'), eq(parameters.codeSign, 'true')) }}:
+  - ${{ if and(eq(variables['System.TeamProject'], 'internal'), eq(parameters.codeSign, 'true')) }}:
     - task: MicroBuildCleanup@1
       displayName: Cleanup MicroBuild tasks
       condition: always()
