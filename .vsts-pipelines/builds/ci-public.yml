@@ -33,14 +33,15 @@ phases:
   - template: ../templates/default-build.yml
     parameters:
       agentOs: Windows
-      ${{ if or(eq(variables['Build.Reason'], 'Schedule'), and(eq(variables['System.TeamProject'], 'internal'), eq(variables['Build.Reason'], 'Manual'), eq(parameters.runCodeQL3000, 'true'))) }}:
+      ${{ if and(eq(variables['System.TeamProject'], 'internal'), or(eq(variables['Build.Reason'], 'Schedule'), and(eq(variables['Build.Reason'], 'Manual'), eq(parameters.runCodeQL3000, 'true'))) }}:
         codeSign: false
         runCodeQL3000: true
         beforeBuild: 
-        - script: "echo ##vso[build.addbuildtag]CodeQL3000"
-          displayName: 'Set CI CodeQL3000 tag'
         - task: CodeQL3000Init@0
           displayName: CodeQL Initialize
+        - script: "echo ##vso[build.addbuildtag]CodeQL3000"
+          displayName: 'Set CI CodeQL3000 tag'
+          condition: ne(variables.CODEQL_DIST,'')
         afterBuild:
         - task: CodeQL3000Finalize@0
           displayName: CodeQL Finalize
