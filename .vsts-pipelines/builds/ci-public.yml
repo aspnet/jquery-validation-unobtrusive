@@ -33,7 +33,7 @@ phases:
   - template: ../templates/default-build.yml
     parameters:
       agentOs: Windows
-      ${{ if and(eq(variables['System.TeamProject'], 'internal'), or(eq(variables['Build.Reason'], 'Schedule'), and(eq(variables['Build.Reason'], 'Manual'), eq(parameters.runCodeQL3000, 'true'))) }}:
+      ${{ if and(eq(variables['System.TeamProject'], 'internal'), or(eq(variables['Build.Reason'], 'Schedule'), and(eq(variables['Build.Reason'], 'Manual'), eq(parameters.runCodeQL3000, 'true')))) }}:
         codeSign: false
         runCodeQL3000: true
         beforeBuild: 
