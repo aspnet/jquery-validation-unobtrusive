@@ -78,7 +78,7 @@ jobs:
     ${{ if ne(variables['System.TeamProject'], 'public') }}:
       # This override makes the specified vmImage irrelevant.
       name: NetCore1ESPool-Internal
-      demands: ImageOverride -equals Build.Server.Amd64.VS2019
+      demands: ImageOverride -equals 1es-windows-2019
   variables:
     AgentOsName: ${{ parameters.agentOs }}
     ASPNETCORE_TEST_LOG_MAXPATH: "200" # Keep test log file name length low enough for artifact zipping
@@ -96,12 +96,11 @@ jobs:
       Codeql.Cadence: 0
       # Enable CodeQL3000 unconditionally so it may be run on any branch.
       Codeql.Enabled: true
-      # Ignore the small amount of infrastructure Python code in this repo.
-      Codeql.Language: cpp,csharp,java,javascript
-      Codeql.ExcludePathPatterns: submodules
       Codeql.SourceRoot: src
       # CodeQL3000 needs this plumbed along as a variable to enable TSA.
       Codeql.TSAEnabled: ${{ eq(variables['Build.Reason'], 'Schedule') }}
+      # Default expects tsaoptions.json under SourceRoot.
+      Codeql.TSAOptionsPath: '$(Build.SourcesDirectory)/.config/tsaoptions.json'
     ${{ insert }}: ${{ parameters.variables }}
   steps:
   - checkout: self

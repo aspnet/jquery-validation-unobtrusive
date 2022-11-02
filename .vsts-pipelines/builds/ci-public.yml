@@ -15,9 +15,6 @@ schedules:
   displayName: "Run CodeQL3000 weekly, Monday at 2:00 AM PDT"
   branches:
     include:
-    - release/2.1
-    - release/6.0
-    - release/7.0
     - main
   always: true
 
@@ -36,8 +33,9 @@ phases:
   - template: ../templates/default-build.yml
     parameters:
       agentOs: Windows
-      ${{ if or(eq(variables['Build.Reason'], 'Schedule'), and(eq(variables['Build.Reason'], 'Manual'), eq(parameters.runCodeQL3000, 'true'))) }}:
+      ${{ if or(eq(variables['Build.Reason'], 'Schedule'), and(eq(variables['System.TeamProject'], 'internal'), eq(variables['Build.Reason'], 'Manual'), eq(parameters.runCodeQL3000, 'true'))) }}:
         codeSign: false
+        runCodeQL3000: true
         beforeBuild: 
         - script: "echo ##vso[build.addbuildtag]CodeQL3000"
           displayName: 'Set CI CodeQL3000 tag'
