@@ -11,7 +11,7 @@
     <licenseUrl>https://licenses.nuget.org/MIT</licenseUrl>
     <projectUrl>https://www.asp.net/</projectUrl>
     <iconUrl>https://go.microsoft.com/fwlink/?LinkID=288859</iconUrl>
-    <description>jQuery plugin that unobtrusively sets up jQuery.Validation.</description>
+    <description>jQuery plugin that unobtrusively sets up jQuery.Validation. It is recommended to install jQuery (jquery@1.8.0 or above (cdnjs)), jQuery-validation (jquery-validation@1.14.0 or above (jsdelivr)), and this package (jquery-validation-unobtrusive@$version$ (cdnjs))) using the client-side library manager that is in Visual Studio since 2017 (include specific files though); however the nuget package versions can still be used if the developer insists to use them.</description>
     <summary>The jQuery Unobtrusive Validation library complements jQuery Validation by adding support for specifying validation options as HTML5 data-* elements</summary>
     <releaseNotes>Please visit https://go.microsoft.com/fwlink/?LinkId=389866 to view the release notes.</releaseNotes>
     <copyright>© Microsoft Corporation. All rights reserved.</copyright>
