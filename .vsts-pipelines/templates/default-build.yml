@@ -68,17 +68,6 @@ jobs:
     ${{ if ne(parameters.matrix, '') }}:
       maxParallel: 8
       matrix: ${{ parameters.matrix }}
-  # Map friendly OS names to the right queue
-  # See https://github.com/dotnet/arcade/blob/main/Documentation/ChoosingAMachinePool.md and
-  # https://docs.microsoft.com/en-us/azure/devops/pipelines/agents/hosted?view=azure-devops&tabs=yaml#use-a-microsoft-hosted-agent
-  pool:
-    ${{ if ne(parameters.poolName, '') }}:
-      name: ${{ parameters.poolName }}
-    vmImage: windows-latest
-    ${{ if ne(variables['System.TeamProject'], 'public') }}:
-      # This override makes the specified vmImage irrelevant.
-      name: NetCore1ESPool-Internal
-      demands: ImageOverride -equals 1es-windows-2019
   variables:
     AgentOsName: ${{ parameters.agentOs }}
     ASPNETCORE_TEST_LOG_MAXPATH: "200" # Keep test log file name length low enough for artifact zipping
