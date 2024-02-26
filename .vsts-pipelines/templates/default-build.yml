@@ -71,8 +71,8 @@ jobs:
   # https://docs.microsoft.com/en-us/azure/devops/pipelines/agents/hosted?view=azure-devops&tabs=yaml#use-a-microsoft-hosted-agent
   ${{ if eq(variables['System.TeamProject'], 'public') }}:
     pool:
-      name: NetCore1ESPool-Svc
-      image: 1es-windows-2019-pt
+      name: NetCore-Svc-Public
+      image: 1es-windows-2019
 
   variables:
     AgentOsName: ${{ parameters.agentOs }}
