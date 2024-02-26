@@ -1,0 +1,71 @@
+trigger:
+  branches:
+    include:
+    - 'main'
+    - 'release/*'
+    - 'internal/release/*'
+# Run PR validation on all branches
+pr:
+  branches:
+    include:
+    - '*'
+
+schedules:
+- cron: 0 9 * * 1
+  displayName: "Run CodeQL3000 weekly, Monday at 2:00 AM PDT"
+  branches:
+    include:
+    - main
+  always: true
+
+resources:
+  repositories:
+  # Repo: 1ESPipelineTemplates/1ESPipelineTemplates
+  - repository: 1esPipelines
+    type: git
+    name: 1ESPipelineTemplates/1ESPipelineTemplates
+    ref: refs/tags/release
+
+parameters:
+# Parameters below are ignored in public builds.
+#
+# Choose whether to run the CodeQL3000 tasks.
+# Manual builds align w/ official builds unless this parameter is true.
+- name: runCodeQL3000
+  default: false
+  displayName: Run CodeQL3000 tasks
+  type: boolean
+
+extends:
+  template: v1/1ES.Official.PipelineTemplate.yml@1esPipelines
+  parameters:
+    pool:
+      ${{ if ne(variables['System.TeamProject'], 'public') }}:
+        name: NetCore1ESPool-Svc-Internal
+      ${{ if eq(variables['System.TeamProject'], 'public') }}:
+        name: NetCore1ESPool-Svc
+      image: 1es-windows-2019-pt
+      os: windows
+    stages:
+    - stage: buildStage
+      displayName: Build Stage
+      jobs:
+      - template: /.vsts-pipelines/templates/default-build.yml@self
+        parameters:
+          agentOs: Windows
+          ${{ if and(eq(variables['System.TeamProject'], 'internal'), or(eq(variables['Build.Reason'], 'Schedule'), and(eq(variables['Build.Reason'], 'Manual'), eq(parameters.runCodeQL3000, 'true')))) }}:
+            codeSign: false
+            runCodeQL3000: true
+            beforeBuild: 
+            - task: CodeQL3000Init@0
+              displayName: CodeQL Initialize
+            - script: "echo ##vso[build.addbuildtag]CodeQL3000"
+              displayName: 'Set CI CodeQL3000 tag'
+              condition: ne(variables.CODEQL_DIST,'')
+            afterBuild:
+            - task: CodeQL3000Finalize@0
+              displayName: CodeQL Finalize
+          ${{ else }}:
+            codeSign: true
+            ${{ if eq(variables['System.TeamProject'], 'internal') }}:
+              buildArgs: '/p:OfficialBuild=true /p:Sign=true'
