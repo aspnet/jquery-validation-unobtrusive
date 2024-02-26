@@ -50,6 +50,7 @@ parameters:
   variables: {}
   runCodeQL3000: false
   dependsOn: ''
+  templateContext: ''
   # buildSteps: [] - don't define an empty object default because there is no way in template expression yet to check "if isEmpty(parameters.buildSteps)"
   # jobName: '' - use agentOs by default.
   # jobDisplayName: '' - use agentOs by default.
@@ -152,10 +153,3 @@ jobs:
     - task: MicroBuildCleanup@1
       displayName: Cleanup MicroBuild tasks
       condition: always()
-  - ${{ if ne(variables['System.TeamProject'], 'public') }}:
-    templateContext:
-      outputs:
-      - output: pipelineArtifact
-        path: $(Build.SourcesDirectory)/artifacts
-        artifactName: artifacts-Windows-Release
-        condition: eq(variables['system.pullrequest.isfork'], false)

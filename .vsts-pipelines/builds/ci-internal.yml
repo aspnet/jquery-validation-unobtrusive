@@ -69,3 +69,9 @@ extends:
             codeSign: true
             ${{ if eq(variables['System.TeamProject'], 'internal') }}:
               buildArgs: '/p:OfficialBuild=true /p:Sign=true'
+  templateContext:
+    outputs:
+    - output: pipelineArtifact
+      path: $(Build.SourcesDirectory)/artifacts
+      artifactName: artifacts-Windows-Release
+      condition: eq(variables['system.pullrequest.isfork'], false)
