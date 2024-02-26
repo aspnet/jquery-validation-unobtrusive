@@ -134,6 +134,6 @@ jobs:
   templateContext:
     outputs:
     - output: pipelineArtifact
-      path: $(Agent.BuildDirectory)/artifacts
+      path: $(Build.SourcesDirectory)/artifacts
       artifactName: artifacts-Windows-Release
       condition: eq(variables['system.pullrequest.isfork'], false)
