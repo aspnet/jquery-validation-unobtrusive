@@ -58,92 +58,111 @@ parameters:
     publish: true
     path: 'artifacts/'
 
-jobs:
-- job: ${{ coalesce(parameters.jobName, parameters.agentOs) }}
-  displayName: ${{ coalesce(parameters.jobDisplayName, parameters.agentOs) }}
-  dependsOn: ${{ parameters.dependsOn }}
-  workspace:
-    clean: all
-  strategy:
-    ${{ if ne(parameters.matrix, '') }}:
-      maxParallel: 8
-      matrix: ${{ parameters.matrix }}
-  variables:
-    AgentOsName: ${{ parameters.agentOs }}
-    ASPNETCORE_TEST_LOG_MAXPATH: "200" # Keep test log file name length low enough for artifact zipping
-    DOTNET_HOME: $(Agent.BuildDirectory)/.dotnet
-    BuildScriptArgs: ${{ parameters.buildArgs }}
-    BuildConfiguration: ${{ parameters.configuration }}
-    DOTNET_CLI_TELEMETRY_OPTOUT: 1 # Skip signing telemetry to work around an error
-    TeamName: AspNetCore
-    ${{ if and(eq(parameters.codeSign, 'true'), eq(variables['System.TeamProject'], 'internal'), ne(variables['Build.Reason'], 'PullRequest')) }}:
-      _SignType: real
-    ${{ if or(ne(parameters.codeSign, 'true'), ne(variables['System.TeamProject'], 'internal'), eq(variables['Build.Reason'], 'PullRequest')) }}:
-      _SignType: ''
-    ${{ if eq(parameters.runCodeQL3000, 'true') }}:
-      # Do not let CodeQL3000 Extension gate scan frequency.
-      Codeql.Cadence: 0
-      # Enable CodeQL3000 unconditionally so it may be run on any branch.
-      Codeql.Enabled: true
-      Codeql.SourceRoot: src
-      # CodeQL3000 needs this plumbed along as a variable to enable TSA.
-      Codeql.TSAEnabled: ${{ eq(variables['Build.Reason'], 'Schedule') }}
-      # Default expects tsaoptions.json under SourceRoot.
-      Codeql.TSAOptionsPath: '$(Build.SourcesDirectory)/.config/tsaoptions.json'
-    ${{ insert }}: ${{ parameters.variables }}
-  steps:
-  - checkout: self
-    clean: true
-  - task: NuGetCommand@2
-    displayName: 'Clear NuGet caches'
-    condition: succeeded()
-    inputs:
-      command: custom
-      arguments: 'locals all -clear'
-  - ${{ if and(eq(variables['System.TeamProject'], 'internal'), eq(parameters.codeSign, 'true')) }}:
-    - task: MicroBuildSigningPlugin@2
-      displayName: Install MicroBuild Signing plugin
-      condition: and(succeeded(), in(variables['_SignType'], 'test', 'real'))
-      inputs:
-        signType: $(_SignType)
-        zipSources: false
-        feedSource: https://dnceng.pkgs.visualstudio.com/_packaging/MicroBuildToolset/nuget/v3/index.json
-  - ${{ parameters.beforeBuild }}
-  - ${{ if eq(parameters.buildSteps, '') }}:
-    - task: NuGetToolInstaller@1
-      displayName: 'Install NuGet.exe'
-    - task: NodeTool@0
-      displayName: Install Node 16.x
-      inputs:
-        versionSpec: 16.x
-    - script: .\build.cmd /p:SignType=$(_SignType) /p:Configuration=$(BuildConfiguration) $(BuildScriptArgs) /bl:artifacts/logs/build.binlog
-      displayName: Run build.cmd
-  - ${{ if ne(parameters.buildSteps, '') }}:
-    - ${{ parameters.buildSteps }}
-  - task: PublishTestResults@2
-    displayName: Publish test results
-    condition: always()
-    continueOnError: true
-    inputs:
-      testRunTitle: $(AgentOsName)-$(BuildConfiguration)
-      testRunner: vstest
-      testResultsFiles: 'artifacts/logs/**/*.trx'
-      mergeTestResults: true
-  - ${{ if eq(parameters.artifacts.publish, 'true') }}:
-    - task: PublishBuildArtifacts@1
-      displayName: Upload artifacts
-      condition: eq(variables['system.pullrequest.isfork'], false)
-      continueOnError: true
-      inputs:
-        pathtoPublish: ${{ parameters.artifacts.path }}
-        ${{ if eq(parameters.artifacts.name, '') }}:
-          artifactName: artifacts-$(AgentOsName)-$(BuildConfiguration)
-        ${{ if ne(parameters.artifacts.name, '') }}:
-          artifactName: ${{ parameters.artifacts.name }}
-        artifactType: Container
-        parallel: true
-  - ${{ parameters.afterBuild }}
-  - ${{ if and(eq(variables['System.TeamProject'], 'internal'), eq(parameters.codeSign, 'true')) }}:
-    - task: MicroBuildCleanup@1
-      displayName: Cleanup MicroBuild tasks
-      condition: always()
+extends:
+  template: v1/1ES.Official.PipelineTemplate.yml@1esPipelines
+  parameters:
+    pool:
+      ${{ if ne(variables['System.TeamProject'], 'public') }}:
+        name: NetCore1ESPool-Svc-Internal
+      ${{ if ne(variables['System.TeamProject'], 'public') }}:
+        name: NetCore1ESPool-Svc
+      image: 1es-windows-2019-pt
+      os: windows
+    sdl:
+      sourceRepositoriesToScan:
+        include:
+        - repository: git://internal/aspnet-WebStackRuntime-Build
+        exclude:
+        - repository: git://internal/aspnet-AspNetWebStack
+    stages:
+    - stage: buildStage
+      displayName: Build Stage
+      jobs:
+      - job: ${{ coalesce(parameters.jobName, parameters.agentOs) }}
+        displayName: ${{ coalesce(parameters.jobDisplayName, parameters.agentOs) }}
+        dependsOn: ${{ parameters.dependsOn }}
+        workspace:
+          clean: all
+        strategy:
+          ${{ if ne(parameters.matrix, '') }}:
+            maxParallel: 8
+            matrix: ${{ parameters.matrix }}
+        variables:
+          AgentOsName: ${{ parameters.agentOs }}
+          ASPNETCORE_TEST_LOG_MAXPATH: "200" # Keep test log file name length low enough for artifact zipping
+          DOTNET_HOME: $(Agent.BuildDirectory)/.dotnet
+          BuildScriptArgs: ${{ parameters.buildArgs }}
+          BuildConfiguration: ${{ parameters.configuration }}
+          DOTNET_CLI_TELEMETRY_OPTOUT: 1 # Skip signing telemetry to work around an error
+          TeamName: AspNetCore
+          ${{ if and(eq(parameters.codeSign, 'true'), eq(variables['System.TeamProject'], 'internal'), ne(variables['Build.Reason'], 'PullRequest')) }}:
+            _SignType: real
+          ${{ if or(ne(parameters.codeSign, 'true'), ne(variables['System.TeamProject'], 'internal'), eq(variables['Build.Reason'], 'PullRequest')) }}:
+            _SignType: ''
+          ${{ if eq(parameters.runCodeQL3000, 'true') }}:
+            # Do not let CodeQL3000 Extension gate scan frequency.
+            Codeql.Cadence: 0
+            # Enable CodeQL3000 unconditionally so it may be run on any branch.
+            Codeql.Enabled: true
+            Codeql.SourceRoot: src
+            # CodeQL3000 needs this plumbed along as a variable to enable TSA.
+            Codeql.TSAEnabled: ${{ eq(variables['Build.Reason'], 'Schedule') }}
+            # Default expects tsaoptions.json under SourceRoot.
+            Codeql.TSAOptionsPath: '$(Build.SourcesDirectory)/.config/tsaoptions.json'
+          ${{ insert }}: ${{ parameters.variables }}
+        steps:
+        - checkout: self
+          clean: true
+        - task: NuGetCommand@2
+          displayName: 'Clear NuGet caches'
+          condition: succeeded()
+          inputs:
+            command: custom
+            arguments: 'locals all -clear'
+        - ${{ if and(eq(variables['System.TeamProject'], 'internal'), eq(parameters.codeSign, 'true')) }}:
+          - task: MicroBuildSigningPlugin@2
+            displayName: Install MicroBuild Signing plugin
+            condition: and(succeeded(), in(variables['_SignType'], 'test', 'real'))
+            inputs:
+              signType: $(_SignType)
+              zipSources: false
+              feedSource: https://dnceng.pkgs.visualstudio.com/_packaging/MicroBuildToolset/nuget/v3/index.json
+        - ${{ parameters.beforeBuild }}
+        - ${{ if eq(parameters.buildSteps, '') }}:
+          - task: NuGetToolInstaller@1
+            displayName: 'Install NuGet.exe'
+          - task: NodeTool@0
+            displayName: Install Node 16.x
+            inputs:
+              versionSpec: 16.x
+          - script: .\build.cmd /p:SignType=$(_SignType) /p:Configuration=$(BuildConfiguration) $(BuildScriptArgs) /bl:artifacts/logs/build.binlog
+            displayName: Run build.cmd
+        - ${{ if ne(parameters.buildSteps, '') }}:
+          - ${{ parameters.buildSteps }}
+        - task: PublishTestResults@2
+          displayName: Publish test results
+          condition: always()
+          continueOnError: true
+          inputs:
+            testRunTitle: $(AgentOsName)-$(BuildConfiguration)
+            testRunner: vstest
+            testResultsFiles: 'artifacts/logs/**/*.trx'
+            mergeTestResults: true
+        - ${{ if eq(parameters.artifacts.publish, 'true') }}:
+          - task: PublishBuildArtifacts@1
+            displayName: Upload artifacts
+            condition: eq(variables['system.pullrequest.isfork'], false)
+            continueOnError: true
+            inputs:
+              pathtoPublish: ${{ parameters.artifacts.path }}
+              ${{ if eq(parameters.artifacts.name, '') }}:
+                artifactName: artifacts-$(AgentOsName)-$(BuildConfiguration)
+              ${{ if ne(parameters.artifacts.name, '') }}:
+                artifactName: ${{ parameters.artifacts.name }}
+              artifactType: Container
+              parallel: true
+        - ${{ parameters.afterBuild }}
+        - ${{ if and(eq(variables['System.TeamProject'], 'internal'), eq(parameters.codeSign, 'true')) }}:
+          - task: MicroBuildCleanup@1
+            displayName: Cleanup MicroBuild tasks
+            condition: always()
