@@ -54,9 +54,6 @@ parameters:
   # jobName: '' - use agentOs by default.
   # jobDisplayName: '' - use agentOs by default.
   # matrix: {} - don't define an empty object default because there is no way in template expression yet to check "if isEmpty(parameters.matrix)"
-  artifacts:
-    publish: true
-    path: 'artifacts/'
 
 jobs:
 - job: ${{ coalesce(parameters.jobName, parameters.agentOs) }}
@@ -129,21 +126,14 @@ jobs:
       testRunner: vstest
       testResultsFiles: 'artifacts/logs/**/*.trx'
       mergeTestResults: true
-  - ${{ if eq(parameters.artifacts.publish, 'true') }}:
-    - task: PublishBuildArtifacts@1
-      displayName: Upload artifacts
-      condition: eq(variables['system.pullrequest.isfork'], false)
-      continueOnError: true
-      inputs:
-        pathtoPublish: ${{ parameters.artifacts.path }}
-        ${{ if eq(parameters.artifacts.name, '') }}:
-          artifactName: artifacts-$(AgentOsName)-$(BuildConfiguration)
-        ${{ if ne(parameters.artifacts.name, '') }}:
-          artifactName: ${{ parameters.artifacts.name }}
-        artifactType: Container
-        parallel: true
   - ${{ parameters.afterBuild }}
   - ${{ if and(eq(variables['System.TeamProject'], 'internal'), eq(parameters.codeSign, 'true')) }}:
     - task: MicroBuildCleanup@1
       displayName: Cleanup MicroBuild tasks
       condition: always()
+  templateContext:
+    outputs:
+    - output: pipelineArtifact
+      path: $(Agent.BuildDirectory)/artifacts
+      artifactName: artifacts-Windows-Release
+      condition: eq(variables['system.pullrequest.isfork'], false)
