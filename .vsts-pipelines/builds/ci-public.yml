@@ -50,7 +50,7 @@ extends:
     - stage: buildStage
       displayName: Build Stage
       jobs:
-      - template: ../templates/default-build.yml@self
+      - template: /.vsts-pipelines/templates/default-build.yml@self
         parameters:
           agentOs: Windows
           ${{ if and(eq(variables['System.TeamProject'], 'internal'), or(eq(variables['Build.Reason'], 'Schedule'), and(eq(variables['Build.Reason'], 'Manual'), eq(parameters.runCodeQL3000, 'true')))) }}:
