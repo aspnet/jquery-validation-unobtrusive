@@ -36,7 +36,7 @@ parameters:
   displayName: Run CodeQL3000 tasks
   type: boolean
 
-${{ if ne(variables['System.TeamProject'], 'public') }}:
+- ${{ if ne(variables['System.TeamProject'], 'public') }}:
   extends:
     template: v1/1ES.Official.PipelineTemplate.yml@1esPipelines
     parameters:
@@ -68,7 +68,7 @@ ${{ if ne(variables['System.TeamProject'], 'public') }}:
               ${{ if eq(variables['System.TeamProject'], 'internal') }}:
                 buildArgs: '/p:OfficialBuild=true /p:Sign=true'
 
-${{ if eq(variables['System.TeamProject'], 'public') }}:
+- ${{ if eq(variables['System.TeamProject'], 'public') }}:
   phases:
     - template: ../templates/default-build.yml
       parameters:
