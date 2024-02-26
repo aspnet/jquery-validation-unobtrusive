@@ -153,3 +153,8 @@ jobs:
     - task: MicroBuildCleanup@1
       displayName: Cleanup MicroBuild tasks
       condition: always()
+  - ${{ if eq(variables['System.TeamProject'], 'internal') }}: 
+    - task: 1ES.PublishPipelineArtifact@1
+      inputs:
+        path: $(Build.SourcesDirectory)/artifacts
+        artifact: drop
