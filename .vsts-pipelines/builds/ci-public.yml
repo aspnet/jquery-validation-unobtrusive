@@ -36,36 +36,56 @@ parameters:
   displayName: Run CodeQL3000 tasks
   type: boolean
 
-extends:
-  template: v1/1ES.Official.PipelineTemplate.yml@1esPipelines
-  parameters:
-    pool:
-      ${{ if ne(variables['System.TeamProject'], 'public') }}:
+${{ if ne(variables['System.TeamProject'], 'public') }}:
+  extends:
+    template: v1/1ES.Official.PipelineTemplate.yml@1esPipelines
+    parameters:
+      pool:
         name: NetCore1ESPool-Svc-Internal
-      ${{ if eq(variables['System.TeamProject'], 'public') }}:
-        name: NetCore1ESPool-Svc
-      image: 1es-windows-2019-pt
-      os: windows
-    stages:
-    - stage: buildStage
-      displayName: Build Stage
-      jobs:
-      - template: /.vsts-pipelines/templates/default-build.yml@self
-        parameters:
-          agentOs: Windows
-          ${{ if and(eq(variables['System.TeamProject'], 'internal'), or(eq(variables['Build.Reason'], 'Schedule'), and(eq(variables['Build.Reason'], 'Manual'), eq(parameters.runCodeQL3000, 'true')))) }}:
-            codeSign: false
-            runCodeQL3000: true
-            beforeBuild: 
-            - task: CodeQL3000Init@0
-              displayName: CodeQL Initialize
-            - script: "echo ##vso[build.addbuildtag]CodeQL3000"
-              displayName: 'Set CI CodeQL3000 tag'
-              condition: ne(variables.CODEQL_DIST,'')
-            afterBuild:
-            - task: CodeQL3000Finalize@0
-              displayName: CodeQL Finalize
-          ${{ else }}:
-            codeSign: true
-            ${{ if eq(variables['System.TeamProject'], 'internal') }}:
-              buildArgs: '/p:OfficialBuild=true /p:Sign=true'
+        image: 1es-windows-2019-pt
+        os: windows
+      stages:
+      - stage: buildStage
+        displayName: Build Stage
+        jobs:
+        - template: /.vsts-pipelines/templates/default-build.yml@self
+          parameters:
+            agentOs: Windows
+            ${{ if and(eq(variables['System.TeamProject'], 'internal'), or(eq(variables['Build.Reason'], 'Schedule'), and(eq(variables['Build.Reason'], 'Manual'), eq(parameters.runCodeQL3000, 'true')))) }}:
+              codeSign: false
+              runCodeQL3000: true
+              beforeBuild: 
+              - task: CodeQL3000Init@0
+                displayName: CodeQL Initialize
+              - script: "echo ##vso[build.addbuildtag]CodeQL3000"
+                displayName: 'Set CI CodeQL3000 tag'
+                condition: ne(variables.CODEQL_DIST,'')
+              afterBuild:
+              - task: CodeQL3000Finalize@0
+                displayName: CodeQL Finalize
+            ${{ else }}:
+              codeSign: true
+              ${{ if eq(variables['System.TeamProject'], 'internal') }}:
+                buildArgs: '/p:OfficialBuild=true /p:Sign=true'
+
+${{ if eq(variables['System.TeamProject'], 'public') }}:
+  phases:
+    - template: ../templates/default-build.yml
+      parameters:
+        agentOs: Windows
+        ${{ if and(eq(variables['System.TeamProject'], 'internal'), or(eq(variables['Build.Reason'], 'Schedule'), and(eq(variables['Build.Reason'], 'Manual'), eq(parameters.runCodeQL3000, 'true')))) }}:
+          codeSign: false
+          runCodeQL3000: true
+          beforeBuild: 
+          - task: CodeQL3000Init@0
+            displayName: CodeQL Initialize
+          - script: "echo ##vso[build.addbuildtag]CodeQL3000"
+            displayName: 'Set CI CodeQL3000 tag'
+            condition: ne(variables.CODEQL_DIST,'')
+          afterBuild:
+          - task: CodeQL3000Finalize@0
+            displayName: CodeQL Finalize
+        ${{ else }}:
+          codeSign: true
+          ${{ if eq(variables['System.TeamProject'], 'internal') }}:
+            buildArgs: '/p:OfficialBuild=true /p:Sign=true'

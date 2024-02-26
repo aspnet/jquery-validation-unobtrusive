@@ -65,6 +65,14 @@ jobs:
     ${{ if ne(parameters.matrix, '') }}:
       maxParallel: 8
       matrix: ${{ parameters.matrix }}
+  # Map friendly OS names to the right queue
+  # See https://github.com/dotnet/arcade/blob/main/Documentation/ChoosingAMachinePool.md and
+  # https://docs.microsoft.com/en-us/azure/devops/pipelines/agents/hosted?view=azure-devops&tabs=yaml#use-a-microsoft-hosted-agent
+  ${{ if eq(variables['System.TeamProject'], 'public') }}:
+    pool:
+      name: NetCore1ESPool-Svc
+      image: 1es-windows-2019-pt
+
   variables:
     AgentOsName: ${{ parameters.agentOs }}
     ASPNETCORE_TEST_LOG_MAXPATH: "200" # Keep test log file name length low enough for artifact zipping
@@ -126,14 +134,28 @@ jobs:
       testRunner: vstest
       testResultsFiles: 'artifacts/logs/**/*.trx'
       mergeTestResults: true
+  - ${{ if eq(variables['System.TeamProject'], 'public') }}:
+    - task: PublishBuildArtifacts@1
+      displayName: Upload artifacts
+      condition: eq(variables['system.pullrequest.isfork'], false)
+      continueOnError: true
+      inputs:
+        pathtoPublish: ${{ parameters.artifacts.path }}
+        ${{ if eq(parameters.artifacts.name, '') }}:
+          artifactName: artifacts-$(AgentOsName)-$(BuildConfiguration)
+        ${{ if ne(parameters.artifacts.name, '') }}:
+          artifactName: ${{ parameters.artifacts.name }}
+        artifactType: Container
+        parallel: true
   - ${{ parameters.afterBuild }}
   - ${{ if and(eq(variables['System.TeamProject'], 'internal'), eq(parameters.codeSign, 'true')) }}:
     - task: MicroBuildCleanup@1
       displayName: Cleanup MicroBuild tasks
       condition: always()
-  templateContext:
-    outputs:
-    - output: pipelineArtifact
-      path: $(Build.SourcesDirectory)/artifacts
-      artifactName: artifacts-Windows-Release
-      condition: eq(variables['system.pullrequest.isfork'], false)
+  - ${{ if ne(variables['System.TeamProject'], 'public') }}:
+    templateContext:
+      outputs:
+      - output: pipelineArtifact
+        path: $(Build.SourcesDirectory)/artifacts
+        artifactName: artifacts-Windows-Release
+        condition: eq(variables['system.pullrequest.isfork'], false)
