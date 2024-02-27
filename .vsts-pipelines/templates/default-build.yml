@@ -50,13 +50,11 @@ parameters:
   variables: {}
   runCodeQL3000: false
   dependsOn: ''
+  templateContext: ''
   # buildSteps: [] - don't define an empty object default because there is no way in template expression yet to check "if isEmpty(parameters.buildSteps)"
   # jobName: '' - use agentOs by default.
   # jobDisplayName: '' - use agentOs by default.
   # matrix: {} - don't define an empty object default because there is no way in template expression yet to check "if isEmpty(parameters.matrix)"
-  artifacts:
-    publish: true
-    path: 'artifacts/'
 
 jobs:
 - job: ${{ coalesce(parameters.jobName, parameters.agentOs) }}
@@ -71,14 +69,11 @@ jobs:
   # Map friendly OS names to the right queue
   # See https://github.com/dotnet/arcade/blob/main/Documentation/ChoosingAMachinePool.md and
   # https://docs.microsoft.com/en-us/azure/devops/pipelines/agents/hosted?view=azure-devops&tabs=yaml#use-a-microsoft-hosted-agent
-  pool:
-    ${{ if ne(parameters.poolName, '') }}:
-      name: ${{ parameters.poolName }}
-    vmImage: windows-latest
-    ${{ if ne(variables['System.TeamProject'], 'public') }}:
-      # This override makes the specified vmImage irrelevant.
-      name: NetCore1ESPool-Internal
-      demands: ImageOverride -equals 1es-windows-2019
+  ${{ if eq(variables['System.TeamProject'], 'public') }}:
+    pool:
+      name: NetCore-Svc-Public
+      image: 1es-windows-2019
+
   variables:
     AgentOsName: ${{ parameters.agentOs }}
     ASPNETCORE_TEST_LOG_MAXPATH: "200" # Keep test log file name length low enough for artifact zipping
@@ -140,7 +135,7 @@ jobs:
       testRunner: vstest
       testResultsFiles: 'artifacts/logs/**/*.trx'
       mergeTestResults: true
-  - ${{ if eq(parameters.artifacts.publish, 'true') }}:
+  - ${{ if eq(variables['System.TeamProject'], 'public') }}:
     - task: PublishBuildArtifacts@1
       displayName: Upload artifacts
       condition: eq(variables['system.pullrequest.isfork'], false)
@@ -158,3 +153,8 @@ jobs:
     - task: MicroBuildCleanup@1
       displayName: Cleanup MicroBuild tasks
       condition: always()
+  - ${{ if eq(variables['System.TeamProject'], 'internal') }}: 
+    - task: 1ES.PublishPipelineArtifact@1
+      inputs:
+        path: $(Build.SourcesDirectory)/artifacts
+        artifact: drop
