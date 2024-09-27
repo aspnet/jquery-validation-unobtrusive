@@ -39,6 +39,11 @@ parameters:
 extends:
   template: v1/1ES.Official.PipelineTemplate.yml@1esPipelines
   parameters:
+    sdl:
+      policheck:
+        enabled: true
+      tsa:
+        enabled: true
     pool:
       ${{ if ne(variables['System.TeamProject'], 'public') }}:
         name: NetCore1ESPool-Svc-Internal
