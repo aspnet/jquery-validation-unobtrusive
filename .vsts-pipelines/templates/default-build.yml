@@ -72,7 +72,7 @@ jobs:
   ${{ if eq(variables['System.TeamProject'], 'public') }}:
     pool:
       name: NetCore-Svc-Public
-      image: 1es-windows-2019
+      image: 1es-windows-2022
 
   variables:
     AgentOsName: ${{ parameters.agentOs }}
