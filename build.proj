@@ -27,7 +27,7 @@
         <ReadLinesFromFile File="@(VersionFile)">
             <Output TaskParameter="Lines" PropertyName="PackageVersion"/>
         </ReadLinesFromFile>
-        <Exec Command="npm install" />
+        <Exec Command="npm ci" />
         <Exec Command="npm version --no-git-tag-version --allow-same-version $(PackageVersion)" />
         <Exec Command="$(MSBuildThisFileDirectory)node_modules\.bin\gulp" />
         <MakeDir Directories="$(ArtifactsDir)" />
