@@ -124,10 +124,6 @@ jobs:
       displayName: Install Node 20.x
       inputs:
         versionSpec: 20.x
-    - task: npmAuthenticate@0
-      displayName: Authenticate npm feeds
-      inputs:
-        workingFile: .npmrc
     - script: .\build.cmd /p:SignType=$(_SignType) /p:Configuration=$(BuildConfiguration) $(BuildScriptArgs) /bl:artifacts/logs/build.binlog
       displayName: Run build.cmd
   - ${{ if ne(parameters.buildSteps, '') }}:
