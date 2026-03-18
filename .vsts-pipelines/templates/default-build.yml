@@ -128,6 +128,10 @@ jobs:
       displayName: Authenticate npm feeds
       inputs:
         workingFile: .npmrc
+    - task: npmAuthenticate@0
+      displayName: Authenticate test npm feeds
+      inputs:
+        workingFile: test/webpacktest/.npmrc
     - script: .\build.cmd /p:SignType=$(_SignType) /p:Configuration=$(BuildConfiguration) $(BuildScriptArgs) /bl:artifacts/logs/build.binlog
       displayName: Run build.cmd
   - ${{ if ne(parameters.buildSteps, '') }}:
