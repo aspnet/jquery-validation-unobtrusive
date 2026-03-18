@@ -50,9 +50,8 @@
 
     <Target Name="Test">
         <Message Text="Testing Webpack build..." />
-        <Exec Command="npm init -y" WorkingDirectory="$(WebPackTestDir)" />
+        <Exec Command="npm ci" WorkingDirectory="$(WebPackTestDir)" />
         <Exec Command="npm install $(ArtifactsDir)jquery-validation-unobtrusive-$(PackageVersion).tgz --save-dev --force" WorkingDirectory="$(WebPackTestDir)" />
-        <Exec Command="npm install webpack webpack-cli --save-dev" WorkingDirectory="$(WebPackTestDir)" />
         <Exec Command="npx webpack" WorkingDirectory="$(WebPackTestDir)" />
     </Target>
 </Project>
