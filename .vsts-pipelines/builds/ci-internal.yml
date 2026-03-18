@@ -40,7 +40,7 @@ extends:
   template: v1/1ES.Official.PipelineTemplate.yml@1esPipelines
   parameters:
     settings:
-      networkIsolationPolicy: Permissive,CFSClean2
+      networkIsolationPolicy: Permissive, CFSClean, CFSClean2
     sdl:
       policheck:
         enabled: true
