@@ -127,7 +127,7 @@
     function validationInfo(form) {
         var $form = $(form),
             result = $form.data(data_validation),
-            onResetProxy = $.proxy(onReset, form),
+            onResetProxy = onReset.bind(form),
             defaultOptions = $jQval.unobtrusive.options || {},
             execInContext = function (name, args) {
                 var func = defaultOptions[name];
