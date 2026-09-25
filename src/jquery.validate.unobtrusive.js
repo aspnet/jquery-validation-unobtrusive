@@ -77,9 +77,16 @@
             list.empty();
             container.addClass("validation-summary-errors").removeClass("validation-summary-valid");
 
-            $.each(validator.errorList, function () {
-                $("<li />").html(this.message).appendTo(list);
-            });
+            if(validator?.settings?.escapeHtml) {
+                $.each(validator.errorList, function () {
+                    $("<li />").text(this.message).appendTo(list);
+                });
+            }
+            else {
+                $.each(validator.errorList, function () {
+                    $("<li />").html(this.message).appendTo(list);
+                });
+            }
         }
     }
 
