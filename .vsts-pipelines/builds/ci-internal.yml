@@ -17,6 +17,12 @@ schedules:
     include:
     - main
   always: true
+- cron: "0 9 1,15 * *"
+  displayName: "Twice-monthly official build"
+  branches:
+    include:
+    - main
+  always: true
 
 resources:
   repositories:
@@ -60,7 +66,7 @@ extends:
       - template: /.vsts-pipelines/templates/default-build.yml@self
         parameters:
           agentOs: Windows
-          ${{ if and(eq(variables['System.TeamProject'], 'internal'), or(eq(variables['Build.Reason'], 'Schedule'), and(eq(variables['Build.Reason'], 'Manual'), eq(parameters.runCodeQL3000, 'true')))) }}:
+          ${{ if and(eq(variables['System.TeamProject'], 'internal'), or(eq(variables['Build.CronSchedule.DisplayName'], 'Run CodeQL3000 weekly, Monday at 2:00 AM PDT'), and(eq(variables['Build.Reason'], 'Manual'), eq(parameters.runCodeQL3000, 'true')))) }}:
             codeSign: false
             runCodeQL3000: true
             beforeBuild: 
